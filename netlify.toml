@@ -1,0 +1,15 @@
+# Plain static site: no build step, Netlify serves the public/ folder as-is.
+[build]
+  publish = "public"
+
+# Old WordPress addresses -> new pages, so existing links and Google results keep working.
+# (Netlify matches these with or without a trailing slash.)
+[[redirects]]
+  from = "/home"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/clients"
+  to = "/projects/"
+  status = 301

@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Our Projects | Bloem Consulting Services</title>
+  <link href="https://fonts.cdnfonts.com/css/gully" rel="stylesheet">
+  <style>
+    /* --- GLOBAL RESET & BASE --- */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; overflow-x: hidden; background: #fcfcfc; font-family: 'Gully', sans-serif; color: #3a3936; -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+    body { padding: 0; }
+
+    /* --- DIVIDERS --- */
+    .section-divider { width: 1px; height: 80px; background: #204f3b; margin: 0 auto; transform: scaleY(0); opacity: 0; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease; transform-origin: top; }
+    .section-divider.is-visible { transform: scaleY(1); opacity: 1; }
+
+    /* --- HEADER (GLASS) --- */
+    header { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 1200px; height: 80px; background: rgba(255,255,255,0.7); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.4); border-radius: 40px; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; z-index: 1000; box-shadow: 0 8px 32px rgba(0,0,0,0.05); }
+    .logo-wrapper { background: rgba(255,255,255,0.8); backdrop-filter: blur(8px); border: 1px solid rgba(32,79,59,0.1); border-radius: 24px; padding: 6px 20px; display: flex; align-items: center; }
+    .logo-link { display: flex; align-items: center; text-decoration: none; }
+    .logo-img { height: 32px; width: auto; }
+    nav ul { display: flex; list-style: none; gap: 30px; }
+    nav ul li a { text-decoration: none; color: #3a3936; font-size: 16px; font-weight: 700; position: relative; padding-bottom: 5px; transition: color 0.3s; }
+    nav ul li a::after { content: ''; position: absolute; width: 0; height: 3px; bottom: 0; left: 50%; background: #ff9e29; transition: all 0.3s cubic-bezier(0.25,1,0.5,1); transform: translateX(-50%); }
+    nav ul li a:hover { color: #204f3b; }
+    nav ul li a:hover::after { width: 100%; }
+    .cta-button { background: #204f3b; color: white; padding: 12px 28px; border-radius: 30px; text-decoration: none; font-weight: 700; font-size: 14px; transition: 0.3s; display: inline-block; border: none; cursor: pointer; }
+    .cta-button:hover { background: #163629; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(32,79,59,0.2); }
+    .hamburger { display: none; cursor: pointer; background: none; border: none; padding: 10px; z-index: 1100; }
+    .hamburger span { display: block; width: 25px; height: 3px; background: #3a3936; margin: 5px 0; transition: 0.3s; }
+
+    /* --- HERO BANNER (FOREST GREEN + TOPOGRAPHIC) --- */
+    .banner { position: relative; width: 100%; min-height: 55vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 160px 5% 80px; background: #204f3b; color: #fff; text-align: center; overflow: hidden; }
+    .banner-grid-overlay { position: absolute; inset: 0; background-image: url('https://bloem-co.com/wp-content/uploads/2026/05/topographic-01.svg'); background-size: cover; background-position: center; opacity: 0.07; z-index: 1; pointer-events: none; }
+    .hero-star-icon { width: 50px; height: 50px; margin-bottom: 24px; position: relative; z-index: 5; display: inline-block; opacity: 0; transform: scale(0.5); animation: starLanding 0.9s cubic-bezier(0.34,1.56,0.64,1) forwards 0.1s, spinInfinite 20s linear infinite 1s; }
+    .hero-star-icon img { width: 100%; height: 100%; object-fit: contain; filter: brightness(0) invert(1); }
+    .banner .text-container { position: relative; z-index: 5; max-width: 850px; width: 100%; margin: 0 auto; }
+    .banner .text-container h1 { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 400; line-height: 1.15; margin-bottom: 24px; color: #fff; opacity: 0; animation: fadeInUp 0.8s ease-out forwards 0.3s; }
+    .banner .text-container h1 strong { font-weight: 700; position: relative; display: inline-block; }
+    .banner .text-container h1 strong::after { content: ''; position: absolute; left: 0; bottom: -2px; width: 100%; height: 4px; background: #ff9e29; border-radius: 2px; }
+    .banner .text-container p { color: rgba(255,255,255,0.85); font-size: clamp(1.1rem, 1.5vw, 1.35rem); line-height: 1.7; max-width: 720px; margin: 0 auto; opacity: 0; animation: fadeInUp 0.8s ease-out forwards 0.5s; }
+
+    /* --- BLOG LAYOUT --- */
+    .blog-container { max-width: 900px; margin: 0 auto; padding: 80px 20px; width: 100%; }
+    .blog-post { background: #fff; border-radius: 24px; padding: 50px; margin-bottom: 80px; box-shadow: 0 10px 40px rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.03); position: relative; max-width: 100%; }
+    .blog-post-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 30px; margin-bottom: 30px; border-bottom: 1px solid rgba(0,0,0,0.06); padding-bottom: 25px; }
+    .blog-meta { flex: 1; min-width: 0; }
+    .blog-tag { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: #ff9e29; margin-bottom: 8px; display: block; }
+    .blog-post h2 { font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 700; color: #204f3b; line-height: 1.25; }
+    .blog-tagline { font-size: 1.15rem; font-style: italic; color: #5a5954; margin-top: 8px; font-weight: 500; }
+    .client-logo-box { flex: 0 0 auto; background: #fafafa; border: 1px solid rgba(0,0,0,0.05); padding: 15px 30px; border-radius: 18px; display: flex; align-items: center; justify-content: center; min-width: 170px; height: 95px; transition: transform 0.3s; }
+    .client-logo-box:hover { transform: translateY(-2px); }
+    .client-logo-box img { max-height: 65px; max-width: 145px; width: auto; object-fit: contain; }
+    .blog-content { font-size: 1.15rem; line-height: 1.8; color: #4a4944; margin-bottom: 40px; }
+    .blog-content p { margin-bottom: 20px; }
+    .blog-highlights { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 30px; margin-bottom: 40px; }
+    .highlight-item { background: #f7f9f7; padding: 25px; border-radius: 16px; border-left: 4px solid #ff9e29; }
+    .highlight-item h4 { font-size: 17px; font-weight: 700; color: #204f3b; margin-bottom: 8px; }
+    .highlight-item p { font-size: 14.5px; line-height: 1.6; color: #6a6964; margin-bottom: 0; }
+    .gallery-wrapper { margin-top: 35px; padding-top: 30px; border-top: 1px solid rgba(0,0,0,0.06); width: 100%; }
+    .gallery-title { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #3a3936; margin-bottom: 18px; display: block; }
+    .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; width: 100%; }
+    .gallery-item { position: relative; height: 160px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.04); background: #eaeaea; cursor: pointer; }
+    .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+    .gallery-item:hover img { transform: scale(1.08); }
+
+    /* --- IMAGE POSITIONING FIXES (YOUR REQUEST) --- */
+    /* Move Mulilo image down (heads were cut off) */
+    .gallery-item img[src*="bloem-co-06-18-11-02-55-2.jpg"] { object-position: 50% 35%; }
+    /* Move PJWG image down (heads were cut off) */
+    .gallery-item img[src*="bloem-co-06-18-11-06-36.jpg"] { object-position: 50% 30%; }
+    /* Move full-team image down (heads were cut off) */
+    .gallery-item img[src*="full-team.webp"] { object-position: 50% 25%; }
+
+    /* --- LIGHTBOX / FULLSCREEN OVERLAY --- */
+    .lightbox-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.92);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      padding: 40px;
+      animation: fadeIn 0.3s ease;
+    }
+    .lightbox-overlay.active {
+      display: flex;
+    }
+    .lightbox-overlay img {
+      max-width: 90%;
+      max-height: 90%;
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      animation: scaleIn 0.3s ease;
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 30px;
+      right: 40px;
+      color: #fff;
+      font-size: 40px;
+      font-weight: 300;
+      cursor: pointer;
+      transition: transform 0.3s;
+      z-index: 10000;
+      background: none;
+      border: none;
+      font-family: 'Gully', sans-serif;
+    }
+    .lightbox-close:hover {
+      transform: rotate(90deg);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes scaleIn {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    /* --- GLASS CTA PANEL --- */
+    .trust-section { padding: 80px 10%; background: #fff; overflow: hidden; position: relative; width: 100%; }
+    .quote-wrapper { width: 100%; max-width: 1200px; margin: 0 auto; transition: transform 0.6s cubic-bezier(0.25,1,0.5,1); }
+    .quote-card { position: relative; width: 100%; border-radius: 50px; padding: 70px 40px; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 30px 60px rgba(0,0,0,0.05); text-align: center; background: #204f3b; color: #fff; }
+    .quote-card::before { content: ''; position: absolute; inset: 0; background-image: url('https://bloem-co.com/wp-content/uploads/2026/05/topographic-01.svg'); background-size: cover; background-position: center; opacity: 0.12; pointer-events: none; z-index: 1; }
+    .glass-square { position: absolute; width: 200px; height: 200px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-radius: 40px; left: 80px; top: 50%; transform: translateY(-50%); z-index: 2; transition: transform 0.6s cubic-bezier(0.25,1,0.5,1); }
+    .quote-text { position: relative; z-index: 3; font-size: clamp(1.4rem, 2.6vw, 1.9rem); font-weight: 400; line-height: 1.4; max-width: 800px; margin-bottom: 32px; opacity: 0; transition: opacity 1s ease-in; }
+    .quote-text.visible { opacity: 1; }
+    .quote-cta { position: relative; z-index: 3; opacity: 0; transform: translateY(20px); transition: all 0.8s ease-out 0.2s; }
+    .quote-cta.visible { opacity: 1; transform: translateY(0); }
+
+    /* --- FOOTER --- */
+    footer { background: #3a3936; color: #fff; padding: 80px 10% 40px; position: relative; z-index: 10; width: 100%; }
+    .footer-content { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 80px; width: 100%; }
+    .footer-brand .footer-logo { height: 45px; width: auto; filter: brightness(0) invert(1); margin-bottom: 25px; }
+    .footer-brand p { font-size: 15px; line-height: 1.7; color: rgba(255,255,255,0.7); max-width: 350px; }
+    .footer-links h4 { font-size: 18px; font-weight: 600; margin-bottom: 25px; position: relative; }
+    .footer-links h4::after { content: ''; position: absolute; width: 30px; height: 2px; background: #ff9e29; bottom: -8px; left: 0; }
+    .footer-links ul { list-style: none; }
+    .footer-links ul li { margin-bottom: 15px; }
+    .footer-links ul li a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 15px; transition: color 0.3s; }
+    .footer-links ul li a:hover { color: #ff9e29; }
+    .footer-bottom { max-width: 1200px; margin: 60px auto 0; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; font-size: 14px; color: rgba(255,255,255,0.5); width: 100%; }
+
+    /* --- KEYFRAMES --- */
+    @keyframes starLanding { from { opacity:0; transform: scale(0.5) rotate(-45deg); } to { opacity:1; transform: scale(1) rotate(0deg); } }
+    @keyframes spinInfinite { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @keyframes fadeInUp { from { opacity:0; transform: translateY(20px); } to { opacity:1; transform: translateY(0); } }
+
+    /* --- RESPONSIVE --- */
+    @media (max-width: 1100px) {
+      header { top: 15px; width: 92%; padding: 0 25px; }
+      .logo-wrapper { height: 50px; padding: 8px 16px; }
+      .logo-img { height: 26px; }
+      .hamburger { display: block; }
+      nav { position: fixed; top: 0; right: -100%; width: 100%; height: 100vh; background: rgba(255,255,255,0.98); backdrop-filter: blur(15px); display: flex; flex-direction: column; align-items: center; justify-content: center; transition: 0.4s cubic-bezier(0.165,0.84,0.44,1); z-index: 1050; }
+      nav.active { right: 0; }
+      nav ul { flex-direction: column; gap: 40px; text-align: center; }
+      .banner { padding-top: 140px; min-height: auto; width: 100%; }
+      .blog-post { padding: 35px 25px; margin-bottom: 60px; width: 100%; }
+      .blog-post-header { flex-direction: column-reverse; align-items: flex-start; gap: 20px; }
+      .client-logo-box { width: 100%; max-width: 220px; }
+      .blog-highlights { grid-template-columns: 1fr; gap: 16px; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-content { grid-template-columns: 1fr; gap: 40px; }
+      .lightbox-overlay img { max-width: 95%; max-height: 80%; }
+      .lightbox-close { top: 20px; right: 25px; font-size: 32px; }
+    }
+    @media (max-width: 600px) {
+      .blog-post { padding: 25px 15px; border-radius: 16px; }
+      .gallery-grid { grid-template-columns: 1fr; }
+      .quote-card { padding: 60px 20px; }
+      .glass-square { display: none; }
+      .footer-bottom { flex-direction: column; gap: 15px; text-align: center; }
+      .lightbox-overlay { padding: 20px; }
+      .lightbox-overlay img { max-width: 100%; max-height: 70%; }
+      .lightbox-close { top: 15px; right: 20px; font-size: 28px; }
+    }
+  </style>
+  <link rel="icon" type="image/svg+xml" href="https://bloem-co.com/wp-content/uploads/2026/05/bloem-co-star-01.svg">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo-wrapper">
+      <a href="/" class="logo-link">
+        <img src="https://bloem-co.com/wp-content/uploads/2026/05/bloem-co-presentation-logo-01.svg" alt="Bloem Co" class="logo-img">
+      </a>
+    </div>
+    <nav id="nav-menu">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/services/">Services</a></li>
+        <li><a href="/projects/" style="color:#204f3b;">Projects</a></li>
+        <li><a href="/team/">Team</a></li>
+        <li><a href="/contact/">Contact</a></li>
+      </ul>
+    </nav>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </header>
+
+  <!-- HERO BANNER -->
+  <section class="banner">
+    <div class="banner-grid-overlay"></div>
+    <div class="hero-star-icon">
+      <img src="https://bloem-co.com/wp-content/uploads/2026/05/bloem-co-star-01.svg" alt="Bloem Co Star">
+    </div>
+    <div class="text-container">
+      <h1>Strategic <strong>Partnerships.</strong></h1>
+      <p>We work alongside pioneering public mechanisms, global corporate consultancies, and transformative community development trusts to bring structure, compliance, and lasting social performance metrics to life.</p>
+    </div>
+  </section>
+
+  <!-- BLOG STREAM -->
+  <main class="blog-container">
+
+    <!-- POST 1: PeWG -->
+    <article class="blog-post" id="pewg">
+      <div class="blog-post-header">
+        <div class="blog-meta">
+          <span class="blog-tag">Private Office of the President</span>
+          <h2>Presidential eThekwini Working Group (PeWG)</h2>
+          <p class="blog-tagline">Stabilising service delivery, strengthening governance, and accelerating recovery.</p>
+        </div>
+        <div class="client-logo-box">
+          <img src="https://bloem-co.com/wp-content/uploads/2026/05/bloem-co-presentation-logo-01.webp" alt="PeWG Logo">
+        </div>
+      </div>
+      <div class="blog-content">
+        <p>Established in April 2024, the Presidential eThekwini Working Group (PeWG) is a partnership mechanism bringing together government, business and community stakeholders to stabilise service delivery, strengthen governance and accelerate economic recovery in eThekwini.</p>
+        <p>Bloem Consulting Services (Bloem-Co) serves as the PeWG's project management partner. We design the workflows and underlying systems that ensure seamless data transmission and progress loops between all relevant public and private executives.</p>
+        <div class="blog-highlights">
+          <div class="highlight-item"><h4>Day-to-Day Operations</h4><p>We manage the mechanism's day-to-day operations, ensuring clear accountability through structured reporting, milestone tracking and visibility of commitments across all participating partners.</p></div>
+          <div class="highlight-item"><h4>Coordination Architecture</h4><p>Our team developed the tools and processes that underpin coordination across the PeWG's seven workstreams, enabling improved collaboration and effective delivery.</p></div>
+        </div>
+      </div>
+      <div class="gallery-wrapper">
+        <span class="gallery-title">Gallery</span>
+        <div class="gallery-grid">
+          <div class="gallery-item"><img src="https://bloem-co.com/wp-content/uploads/2026/05/hardhats.webp" alt="PeWG Hardhats"></div>
+          <div class="gallery-item"><img src="https://bloem-co.com/wp-content/uploads/2026/05/full-team.webp" alt="PeWG Full Team"></div>
+          <div class="gallery-item"><img src="https://bloem-co.com/wp-content/uploads/2026/06/bloem-co-06-18-10-57-11.jpg" alt="PeWG Session"></div>
+          <div class="gallery-item"><img src="https://bloem-co.com/wp-content/uploads/2026/06/bloem-co-06-18-10-57-10.jpg" alt="PeWG Operations"></div>
+        </div>
+      </div>
+    </article>
+
+    <div class="section-divider" data-trigger="divider"></div>
+
+    <!-- POST 2: PJWG -->
+    <article class="blog-post" id="pjwg">
+      <div class="blog-post-header">
+        <div class="blog-meta">
+          <span class="blog-tag">Private Office of the President</span>
+          <h2>Presidential Johannesburg Working Group (PJWG)</h2>
+          <p class="blog-tagline">Addressing revenue inefficiencies, infrastructure decline, and service failures.</p>
+        </div>
+        <div class="client-logo-box">
+          <img src="https://bloem-co.com/wp-content/uploads/2026/05/bloem-co-presentation-logo-01.webp" alt="PJWG Logo">
+        </div>
+      </div>
+      <div class="blog-content">
+        <p>The Presidential Johannesburg Working Group (PJWG) was established by President Cyril Ramaphosa in March 2025 to address critical challenges facing the City of Johannesburg, including high poverty levels, revenue inefficiencies, infrastructure decline and service-delivery failures. Its mandate is to restore public confidence, prioritise essential services and drive inclusive growth.</p>
+        <p>Our appointment builds directly on our proven leadership role in the PeWG, where we developed robust multisector coordination systems and supported the execution of complex municipal turnaround strategies. Bloem Consulting Services provides strategic, technical, and coordination support to the PJWG.</p>
+        <div class="blog-highlights">
+          <div class="highlight-item"><h4>Strategic Clarity &amp; Secretariat</h4><p>We provide strategic clarity and facilitate decision-making across government partners while delivering full secretariat support, including meeting management, documentation, and communication.</p></div>
+          <div class="highlight-item"><h4>Accountability Tracks</h4><p>We track progress across eight workstreams, escalate bottlenecks through the Presidency's oversight structures, and strengthen accountability to ensure priority actions advance efficiently.</p></div>
+        </div>
+      </div>
+      <div class="gallery-wrapper">
+        <span class="gallery-title">Gallery</span>
+        <div class="gallery-grid">
+          <div class="gallery-item"><img src="https://bloem-co.com/wp-content/uploads/2026/05/1755268701367.webp" alt="PJWG Strategic Review"></div>
+          <div class="gallery-item"><img src="https://bloem-co.com/wp-content/uploads/2026/06/bloem-co-06-18-11-06-36.jpg" alt="PJWG Operations"></div>
+          <div class="gallery-item"><img src="https://bloem-co.com/wp-content/uploads/2026/06/bloem-co-06-18-11-06-36-3.jpg" alt="PJWG Team"></div>
+        </div>
+      </div>
+    </article>
+
+    <div class="section-divider" data-trigger="divider"></div>
+
+    <!-- POST 3: MULILO -->
+    <article class="blog-post" id="mulilo">
+      <div class="blog-post-header">
+        <div class="blog-meta">
+          <span class="blog-tag">Trust Administration</span>
+          <h2>Mulilo Community Development Trusts</h2>
+          <p class="blog-tagline">Refining frameworks to ensure energy investments lead to verifiable local progress.</p>
+        </div>
+        <div class="client-logo-box">
+          <img src="https://bloem-co.com/wp-content/uploads/2026/05/9.⁠-⁠⁠Mulilo-Community-Development-Trusts_Black-.png" alt="Mulilo Trusts">
+        </div>
+      </div>
+      <div class="blog-content">
+        <p>In May 2023, Bloem-Co was appointed as the primary administrator for three Mulilo Community Trusts in the Northern Cape: the Prieska Solar Community Trust (Siyathemba Municipality), De Aar Solar Community Trust (Emthanjeni Municipality), and De Aar Wind Community Trust (Renosterberg Municipality).</p>
+        <p>Bloem-Co led a full strategic development process with Trustees, establishing a clear direction for all three Trusts. We refined the Trusts' Theory of Change and strategic framework to ensure that every investment and activity directly contributes to meaningful and measurable community impact.</p>
+        <div class="blog-highlights">
+          <div class="highlight-item"><h4>Core Mandate Operations</h4><p>Our responsibilities include daily administration and governance support, financial management and oversight, implementation of development programmes, and monitoring, evaluation, and reporting.</p></div>
+          <div class="highlight-item"><h4>Strategic Needs Assessment</h4><p>The enhanced framework enables the Trusts to prioritise effectively and align investments with their mandate. We have also initiated preparations for a comprehensive community needs assessment to support an evidence-based strategic overhaul.</p></div>
+        </div>
+      </div>
+      <div class="gallery-wrapper">
+        <span class="gallery-title">Gallery</span>
+        <div class="gallery-grid">
+          <div class="gallery-item"><img src="https://bloem-co.com/wp-content/uploads/2026/06/bloem-co-06-18-11-02-55.jpg" alt="Mulilo Site"></div>
+          <div class="gallery-item"><img src="https://bloem-co.com/wp-content/uploads/2026/06/bloem-co-06-18-11-02-55-2.jpg" alt="Mulilo Community"></div>
+          <div class="gallery-item"><img src="https://bloem-co.com/wp-content/uploads/2026/06/bloem-co-06-18-11-02-55-3.jpg" alt="Mulilo Development"></div>
+          <div class="gallery-item"><img src="https://bloem-co.com/wp-content/uploads/2026/06/bloem-co-06-18-11-02-56.jpg" alt="Mulilo Trust"></div>
+        </div>
+      </div>
+    </article>
+
+    <div class="section-divider" data-trigger="divider"></div>
+
+    <!-- POST 4: INSPIRE -->
+    <article class="blog-post" id="inspire">
+      <div class="blog-post-header">
+        <div class="blog-meta">
+          <span class="blog-tag">Social Performance Platforms</span>
+          <h2>INSPIRE – Community of Practice (COP)</h2>
+          <p class="blog-tagline">Collaborative learning platforms for practitioners across the renewable-energy sector.</p>
+        </div>
+        <div class="client-logo-box">
+          <img src="https://bloem-co.com/wp-content/uploads/2026/05/bloem-co-presentation-logo-02.webp" alt="INSPIRE">
+        </div>
+      </div>
+      <div class="blog-content">
+        <p>INSPIRE's Community of Practice is a collaborative learning platform for practitioners across the renewable-energy sector. It strengthens social-performance practice through shared learning, peer problem-solving and the co-creation of tools that improve community outcomes.</p>
+        <p>Bloem-Co, represented by Fowzia Davids, leads the COP initiative. At a recent COP Learning Event, Fowzia showcased Bloem-Co's work with the Mulilo Trusts, demonstrating practical methodologies for strengthening governance, strategy, and community-impact planning.</p>
+        <div class="blog-highlights">
+          <div class="highlight-item"><h4>Knowledge Adaptation</h4><p>Our ongoing tracking contributions provide practical tools and frameworks that external sector practitioners can adapt smoothly into their localized teams.</p></div>
+          <div class="highlight-item"><h4>Collective Standards</h4><p>We strengthen collective problem-solving paths and support the development of shared good-practice standards across the entire socio-economic development sector.</p></div>
+        </div>
+      </div>
+      <div class="gallery-wrapper">
+        <span class="gallery-title">Gallery</span>
+        <div class="gallery-grid">
+          <div class="gallery-item"><img src="https://bloem-co.com/wp-content/uploads/2026/06/bloem-co-06-18-10-58-10.jpg" alt="INSPIRE Workshop"></div>
+          <div class="gallery-item"><img src="https://bloem-co.com/wp-content/uploads/2026/06/bloem-co-06-18-10-58-09.jpg" alt="INSPIRE COP Event"></div>
+          <div class="gallery-item"><img src="https://bloem-co.com/wp-content/uploads/2026/06/bloem-co-06-18-11-02-55-3.jpg" alt="INSPIRE Community"></div>
+        </div>
+      </div>
+    </article>
+
+    <div class="section-divider" data-trigger="divider"></div>
+
+    <!-- POST 5: HOPEFIELD -->
+    <article class="blog-post" id="hopefield">
+      <div class="blog-post-header">
+        <div class="blog-meta">
+          <span class="blog-tag">Trust Administration</span>
+          <h2>Hopefield Wind Farm Local Community Company</h2>
+          <p class="blog-tagline">Ensuring local communities benefit directly from renewable investments.</p>
+        </div>
+        <div class="client-logo-box">
+          <img src="https://bloem-co.com/wp-content/uploads/2026/05/hopefield-windfarm-project-1.png" alt="Hopefield Wind Farm">
+        </div>
+      </div>
+      <div class="blog-content">
+        <p>The Hopefield Wind Farm Local Community Company oversees community development funding generated by the Hopefield Wind Farm in the Western Cape. Its purpose is to ensure that local communities benefit directly from renewable energy investments through well-managed, impactful socio-economic development initiatives.</p>
+        <p>Bloem-Co has been appointed to provide full administration, governance, and strategic support to the Hopefield Wind Farm Local Community Company in the Western Cape.</p>
+        <div class="blog-highlights">
+          <div class="highlight-item"><h4>Governance Architecture</h4><p>We manage day-to-day governance systems, strengthen compliance and reporting parameters, and actively support the Board in defining an impact-driven strategic direction.</p></div>
+          <div class="highlight-item"><h4>Administrative Foundations</h4><p>Our targeted work ensures that the Company is equipped to deliver sustainable development outcomes supported by strong administrative foundations and effective decision-making structures.</p></div>
+        </div>
+      </div>
+      <div class="gallery-wrapper">
+        <span class="gallery-title">Gallery</span>
+        <div class="gallery-grid">
+          <div class="gallery-item"><img src="https://bloem-co.com/wp-content/uploads/2026/07/WhatsApp-Image-2026-06-05-at-17.27.28.jpeg" alt="Hopefield 1"></div>
+          <div class="gallery-item"><img src="https://bloem-co.com/wp-content/uploads/2026/07/WhatsApp-Image-2026-06-05-at-17.27.29-1.jpeg" alt="Hopefield 2"></div>
+          <div class="gallery-item"><img src="https://bloem-co.com/wp-content/uploads/2026/07/WhatsApp-Image-2026-06-05-at-17.27.28-1.jpeg" alt="Hopefield 3"></div>
+        </div>
+      </div>
+    </article>
+
+    <div class="section-divider" data-trigger="divider"></div>
+
+    <!-- POST 6: SPEYSIDE -->
+    <article class="blog-post" id="speyside">
+      <div class="blog-post-header">
+        <div class="blog-meta">
+          <span class="blog-tag">Corporate Affairs &amp; Public Policy</span>
+          <h2>Speyside Group</h2>
+          <p class="blog-tagline">Shaping organizational environments across emerging markets in the Global South.</p>
+        </div>
+        <div class="client-logo-box">
+          <img src="https://bloem-co.com/wp-content/uploads/2026/05/bloem-co-presentation-logo-04.webp" alt="Speyside Group">
+        </div>
+      </div>
+      <div class="blog-content">
+        <p>Speyside Group is a global corporate affairs and public policy consultancy that helps organisations understand and shape the environments in which they operate, especially across emerging markets in the Global South.</p>
+        <p>Bloem Consulting Services provides tailored policy and regulatory support to Speyside Group and its clients operating in South Africa. Through this partnership, we ensure that Speyside and its clients remain informed, prepared, and strategically positioned within South Africa's dynamic policy environment.</p>
+        <div class="blog-highlights">
+          <div class="highlight-item"><h4>Legislative Deliverables</h4><p>Our continuous analytical support includes compiling weekly policy and legislative reports, delivering real-time policy and political alerts, and tracking key updates affecting clients and sectors.</p></div>
+          <div class="highlight-item"><h4>Stakeholder Operations</h4><p>We provide operational assistance in organizing and coordinating stakeholder meetings, alongside the production of concise background and briefing documents to inform engagement and decision-making.</p></div>
+        </div>
+      </div>
+      <div class="gallery-wrapper">
+        <span class="gallery-title">Gallery</span>
+        <div class="gallery-grid">
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&amp;fit=crop&amp;w=400&amp;q=80" alt="Legal Legislative Briefs"></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1457369804613-52c61a468e7d?auto=format&amp;fit=crop&amp;w=400&amp;q=80" alt="Strategic Policy Documentation"></div>
+          <div class="gallery-item"><img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&amp;fit=crop&amp;w=400&amp;q=80" alt="Stakeholder Meeting Briefing"></div>
+        </div>
+      </div>
+    </article>
+
+  </main>
+
+  <!-- CTA PANEL -->
+  <section class="trust-section pan-section">
+    <div class="quote-wrapper">
+      <div class="quote-card">
+        <div class="glass-square"></div>
+        <h2 class="quote-text">Explore partnership opportunities to optimize your organizational models.</h2>
+        <div class="quote-cta"><a href="/contact/" class="cta-button" style="background:#fff; color:#204f3b;">Contact us to collaborate...</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-brand">
+        <img src="https://bloem-co.com/wp-content/uploads/2026/05/bloem-co-presentation-logo-01.svg" alt="Bloem Co" class="footer-logo">
+        <p>A proudly South African, multidisciplinary consultancy dedicated to bringing clarity to complex programs.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Explore</h4>
+        <ul><li><a href="/">Home</a></li><li><a href="/services/">Services</a></li><li><a href="/team/">Team</a></li></ul>
+      </div>
+      <div class="footer-links">
+        <h4>Legal</h4>
+        <ul><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms of Service</a></li></ul>
+      </div>
+    </div>
+    <div class="footer-bottom"><p>© 2026 Bloem Consulting Services. All rights reserved.</p></div>
+  </footer>
+
+  <!-- LIGHTBOX OVERLAY -->
+  <div class="lightbox-overlay" id="lightbox">
+    <button class="lightbox-close" id="lightboxClose">✕</button>
+    <img id="lightboxImage" src="" alt="Enlarged view">
+  </div>
+
+  <script>
+    (function(){
+      // --- HAMBURGER MENU ---
+      const hamburger = document.getElementById('hamburger');
+      const navMenu = document.getElementById('nav-menu');
+      if(hamburger && navMenu) {
+        hamburger.addEventListener('click', function(e) {
+          e.stopPropagation();
+          this.classList.toggle('active');
+          navMenu.classList.toggle('active');
+        });
+        navMenu.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', function() {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+          });
+        });
+      }
+
+      // --- LIGHTBOX FUNCTIONALITY ---
+      const lightbox = document.getElementById('lightbox');
+      const lightboxImg = document.getElementById('lightboxImage');
+      const lightboxClose = document.getElementById('lightboxClose');
+
+      // Open lightbox on any gallery image click
+      document.querySelectorAll('.gallery-item img').forEach(img => {
+        img.addEventListener('click', function(e) {
+          e.stopPropagation();
+          lightboxImg.src = this.src;
+          lightboxImg.alt = this.alt || 'Enlarged image';
+          lightbox.classList.add('active');
+          document.body.style.overflow = 'hidden';
+        });
+      });
+
+      // Close lightbox functions
+      function closeLightbox() {
+        lightbox.classList.remove('active');
+        document.body.style.overflow = '';
+        // Clear src to prevent flash on next open
+        setTimeout(() => { lightboxImg.src = ''; }, 300);
+      }
+
+      lightboxClose.addEventListener('click', closeLightbox);
+
+      // Click on overlay background closes lightbox
+      lightbox.addEventListener('click', function(e) {
+        if (e.target === this) {
+          closeLightbox();
+        }
+      });
+
+      // ESC key closes lightbox
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+          closeLightbox();
+        }
+      });
+
+      // --- PARALLAX FOR GLASS PANEL ---
+      let mouseX = 0, mouseY = 0;
+      let targetX = 0, targetY = 0;
+
+      document.addEventListener('mousemove', function(e) {
+        mouseX = (e.clientX / window.innerWidth) - 0.5;
+        mouseY = (e.clientY / window.innerHeight) - 0.5;
+      });
+
+      const panSections = document.querySelectorAll('.pan-section');
+      panSections.forEach(function(section) {
+        const wrapper = section.querySelector('.quote-wrapper');
+        const glass = section.querySelector('.glass-square');
+        if(!wrapper) return;
+
+        function updatePan() {
+          targetX += (mouseX - targetX) * 0.08;
+          targetY += (mouseY - targetY) * 0.08;
+          wrapper.style.transform = 'translateX(' + (targetX * 30) + 'px) translateY(' + (targetY * 15) + 'px)';
+          if(glass) {
+            glass.style.transform = 'translateY(-50%) translateX(' + (targetX * -60) + 'px)';
+          }
+          requestAnimationFrame(updatePan);
+        }
+        updatePan();
+      });
+
+      // --- INTERSECTION OBSERVER FOR DIVIDERS & QUOTE ---
+      const animItems = document.querySelectorAll('.quote-text, .quote-cta, [data-trigger="divider"]');
+      const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if(entry.isIntersecting) {
+            entry.target.classList.add('visible', 'is-visible');
+          }
+        });
+      }, { threshold: 0.15 });
+      animItems.forEach(function(item) { observer.observe(item); });
+
+    })();
+  </script>
+
+</body>
+</html>

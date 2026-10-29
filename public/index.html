@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Bloem Consulting Services | Professional Consultancy South Africa</title>
+    <link href="https://fonts.cdnfonts.com/css/gully" rel="stylesheet">
+    <style>
+        /* --- GLOBAL STYLES & LAYOUT GUARDS --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { width: 100%; overflow-x: hidden; background-color: #fcfcfc; color: #3a3936; font-family: 'Gully', sans-serif; scroll-behavior: smooth; }
+
+        /* --- DIVIDERS --- */
+        .section-divider { width: 1px; height: 100px; background-color: #204f3b; margin: 0 auto; transform: scaleY(0); opacity: 0; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease; transform-origin: top; }
+        .section-divider.is-visible { transform: scaleY(1); opacity: 1; }
+
+        /* --- NAVIGATION LAYOUT --- */
+        header { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 1200px; height: 80px; background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 40px; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; z-index: 1000; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05); }
+        .logo-wrapper { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(32, 79, 59, 0.1); border-radius: 24px; padding: 6px 20px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+        .logo-link { display: flex; align-items: center; text-decoration: none; z-index: 1100; }
+        .logo-img { height: 32px; width: auto; }
+        
+        nav ul { display: flex; list-style: none; gap: 35px; }
+        nav ul li a { text-decoration: none; color: #3a3936; font-size: 16px; font-weight: 700; position: relative; padding-bottom: 5px; transition: color 0.3s ease; }
+        nav ul li a::after { content: ''; position: absolute; width: 0; height: 3px; bottom: 0; left: 50%; background-color: #204f3b; transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1); transform: translateX(-50%); }
+        nav ul li a:hover { color: #204f3b; }
+        nav ul li a:hover::after { width: 100%; }
+        
+        .hamburger { display: none; cursor: pointer; z-index: 1100; background: none; border: none; padding: 10px; outline: none; }
+        .hamburger span { display: block; width: 25px; height: 3px; background: #3a3936; margin: 5px 0; transition: all 0.3s ease; transform-origin: center; }
+
+        .hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); background: #204f3b; }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); background: #204f3b; }
+
+        /* --- HERO --- */
+        .banner { position: relative; width: 100%; min-height: 100vh; display: flex; flex-direction: row-reverse; align-items: center; justify-content: space-between; padding: 120px 10% 60px 10%; gap: clamp(80px, 10vw, 140px); background-color: #e7efea; overflow: hidden; }
+        .grid-overlay { position: absolute; inset: 0; background-image: radial-gradient(rgba(255, 255, 255, 0.8) 1.5px, transparent 1.5px); background-size: 30px 30px; z-index: 1; pointer-events: none; }
+        .text-container { position: relative; z-index: 5; max-width: 600px; text-align: left; }
+        .text-container h1 { font-size: clamp(2rem, 3.8vw, 2.8rem); font-weight: 400; line-height: 1.15; margin-bottom: 24px; opacity: 0; animation: fadeInUp 0.8s ease-out forwards 0.2s; }
+        .text-container h1 strong { font-weight: 700; position: relative; display: inline-block; }
+        .text-container h1 strong::after { content: ''; position: absolute; left: 0; bottom: -2px; width: 100%; height: 4px; background-color: #ff9e29; border-radius: 2px; }
+        .text-container p { color: #5a5954; font-size: clamp(1rem, 1.2vw, 1.1rem); line-height: 1.7; opacity: 0; animation: fadeInUp 0.8s ease-out forwards 0.4s; }
+        
+        .hero-cta-button { display: inline-block; background-color: #ffffff; color: #204f3b; padding: 16px 36px; border-radius: 30px; font-weight: 700; font-size: 15px; text-decoration: none; margin-top: 32px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1); opacity: 0; animation: fadeInUp 0.8s ease-out forwards 0.6s; border: 1px solid rgba(32, 79, 59, 0.05); }
+        .hero-cta-button:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(32, 79, 59, 0.15); background-color: #f7f9f7; }
+
+        .visual-stack { position: relative; flex: 0 0 580px; height: 480px; display: flex; align-items: center; justify-content: center; z-index: 2; cursor: default; }
+        .hero-glow { position: absolute; width: 400px; height: 400px; background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 70%); filter: blur(40px); z-index: 1; pointer-events: none; top: 50%; left: 50%; transform: translate(-50%, -50%); animation: glowPulse 6s infinite ease-in-out; }
+        
+        .parallax-layer { position: absolute; width: 100%; height: 100%; top: 0; left: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; will-change: transform; transition: none !important; }
+        .vertical-background-pill { position: absolute; width: 300px; height: 550px; background-color: #204f3b; border-radius: 150px; z-index: 1; top: 50%; left: 50%; box-shadow: 0 25px 55px rgba(32, 79, 59, 0.2); opacity: 0; animation: fadeInUp 1s ease-out forwards 0.4s; }
+        .accent-circle-back { position: absolute; width: 70px; height: 70px; background-color: #ff9e29; border-radius: 50%; z-index: 2; bottom: 40px; right: 40px; box-shadow: 0 10px 25px rgba(255, 158, 41, 0.25); opacity: 0; animation: fadeInUp 1.2s ease-out forwards 0.5s; }
+        .hero-circle-svg { position: absolute; width: 80px; height: 80px; z-index: 4; top: 20px; left: 60px; opacity: 0; animation: fadeInUp 1.2s ease-out forwards 0.7s; }
+        .main-card { position: relative; width: 560px; height: 336px; background: transparent; border-radius: 168px; opacity: 0; animation: fadeInUp 1s ease-out forwards 0.6s; z-index: 3; overflow: hidden; }
+        .main-card img { width: 100%; height: 100%; object-fit: cover; object-position: 15% center; border-radius: 168px; display: block; transform: scale(1.15); transform-origin: center center; }
+
+        /* --- CLIENTS MARQUEE --- */
+        .clients-section { padding: clamp(80px, 8vw, 120px) 0; background-color: #ffffff; border-top: 1px solid rgba(0,0,0,0.02); border-bottom: 1px solid rgba(0,0,0,0.02); position: relative; z-index: 5; }
+        .clients-header { text-align: center; font-size: 14px; text-transform: uppercase; letter-spacing: 2px; color: #8c8b88; margin-bottom: 45px; font-weight: 700; }
+        .clients-container { width: 100%; overflow: hidden; position: relative; }
+        .clients-track { display: flex; gap: 100px; width: max-content; align-items: center; animation: scrollClients 25s linear infinite; }
+        
+        .client-logo { height: 85px; width: auto; filter: grayscale(100%); opacity: 0.65; transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1); }
+        .client-logo:hover { filter: grayscale(0%); opacity: 1; transform: scale(1.08); }
+        .client-logo.maisha-reduced { height: 42.5px; }
+        
+        @keyframes scrollClients { 0% { transform: translateX(0); } 100% { transform: translateX(calc(-50% - 50px)); } }
+
+        /* --- ABOUT US --- */
+        .about-section { padding: clamp(160px, 16vw, 240px) 10%; background-image: linear-gradient(rgba(32, 79, 59, 0.90), rgba(32, 79, 59, 0.90)), url('https://bloem-co.com/wp-content/uploads/2026/05/about-us.webp'); background-size: cover; background-position: center; background-attachment: scroll; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: white; position: relative; z-index: 2; }
+        #about-bloom-svg { width: 90px; height: 90px; margin-bottom: 30px; opacity: 0; transform: scale(0.6) rotate(-45deg); transition: opacity 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), transform 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        #about-bloom-svg.bloom-animated { opacity: 1; transform: scale(1) rotate(0deg); }
+        .about-content { max-width: 800px; }
+        .about-content h2 { font-size: clamp(1.6rem, 2.5vw, 2.2rem); font-weight: 600; margin-bottom: 24px; position: relative; display: inline-block; }
+        .about-content h2::after { content: ''; position: absolute; width: 40px; height: 3px; background: #ff9e29; bottom: -8px; left: 50%; transform: translateX(-50%); border-radius: 2px; }
+        .about-content p { font-size: 1.15rem; line-height: 1.8; color: rgba(255, 255, 255, 0.85); margin-bottom: 20px; }
+
+        /* --- LATEST INSIGHTS BLOG SECTION --- */
+        .blog-section { padding: clamp(100px, 10vw, 160px) 10%; background-color: #ffffff; position: relative; }
+        .blog-header { margin-bottom: 60px; text-align: left; }
+        .blog-header h2 { font-size: clamp(1.6rem, 2.5vw, 2.2rem); font-weight: 600; position: relative; display: inline-block; }
+        .blog-header h2::after { content: ''; position: absolute; width: 40px; height: 3px; background: #204f3b; bottom: -8px; left: 0; border-radius: 2px; }
+        .blog-decor-svg { position: absolute; width: 46px; height: 46px; top: 100px; right: 10%; pointer-events: none; opacity: 0.8; }
+        .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; max-width: 1300px; margin: 0 auto; }
+        .blog-card { background: #ffffff; border-radius: 30px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.04); transition: all 0.4s ease; text-decoration: none; color: inherit; }
+        .blog-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(32, 79, 59, 0.08); }
+        .blog-img-box { width: 100%; height: 220px; overflow: hidden; background-color: #e7efea; }
+        .blog-img-box img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+        .blog-card:hover .blog-img-box img { transform: scale(1.05); }
+        .blog-meta { padding: 30px 30px 0 30px; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: #8c8b88; font-weight: 700; }
+        .blog-title { padding: 15px 30px 20px 30px; font-size: 1.25rem; font-weight: 600; line-height: 1.4; color: #3a3936; transition: color 0.3s; }
+        .blog-card:hover .blog-title { color: #204f3b; }
+        .blog-arrow { padding: 0 30px 30px 30px; display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; color: #204f3b; }
+        .blog-arrow svg { width: 16px; height: 16px; transition: transform 0.3s; }
+        .blog-card:hover .blog-arrow svg { transform: translateX(4px); }
+
+        /* --- TEAM SECTION (Optimized framing alignment prevents cut-off heads) --- */
+        .team-section { padding: clamp(100px, 10vw, 160px) 10% 80px 10%; background-color: #e7efea; text-align: center; position: relative; }
+        .team-header { margin-bottom: 80px; text-align: left; }
+        .team-header h2 { font-size: clamp(1.6rem, 2.5vw, 2.2rem); font-weight: 600; position: relative; display: inline-block; }
+        .team-header h2::after { content: ''; position: absolute; width: 40px; height: 3px; background: #204f3b; bottom: -8px; left: 0; border-radius: 2px; }
+        .team-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 40px; max-width: 1300px; margin: 0 auto 50px auto; }
+        .team-card { position: relative; width: 230px; height: 390px; background: #ffffff; border-radius: 115px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.03); border: none; transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1); }
+        .team-card img { width: 100%; height: 100%; object-fit: cover; display: block; transform: scale(1.15); transition: transform 0.6s ease; }
+        /* Individual image positioning fixes */
+        .team-card:nth-child(1) img { object-position: center center; } /* Fowzia - new image, default center */
+        .team-card:nth-child(2) img { object-position: center 18%; } /* Ineke - moved down */
+        .team-card:nth-child(3) img { object-position: center 15%; } /* Buck - moved down */
+        .team-card:nth-child(4) img { object-position: center center; } /* Uyanda - new image, default center */
+        .team-card:nth-child(5) img { object-position: center 20%; } /* Pearl - fine */
+        .team-info { position: absolute; bottom: 0; left: 0; width: 100%; padding: 50px 25px 40px 25px; background: linear-gradient(to top, rgba(32, 79, 59, 0.95) 0%, rgba(32, 79, 59, 0) 100%); color: white; text-align: center; transform: translateY(20px); opacity: 0; transition: all 0.4s ease; z-index: 3; }
+        .team-card:hover { transform: translateY(-12px); box-shadow: 0 25px 50px rgba(32, 79, 59, 0.15); }
+        .team-card:hover .team-info { transform: translateY(0); opacity: 1; }
+        .team-info h3 { font-size: 18px; font-weight: 600; margin-bottom: 5px; color: #fff; }
+        .team-info p { font-size: 13px; opacity: 0.9; font-weight: 300; line-height: 1.3; color: #fefff5; }
+        
+        .team-cta-wrap { display: flex; justify-content: center; margin-top: 20px; }
+        .team-cta-btn { background: #204f3b; color: #ffffff; padding: 16px 40px; border-radius: 35px; text-decoration: none; font-weight: 700; font-size: 15px; border: none; transition: all 0.3s ease; box-shadow: 0 8px 25px rgba(32, 79, 59, 0.15); }
+        .team-cta-btn:hover { background: #163629; transform: translateY(-3px); box-shadow: 0 12px 30px rgba(32, 79, 59, 0.25); }
+
+        /* --- QUOTE SECTIONS --- */
+        .trust-section { padding: 60px 10% 120px 10%; background-color: #ffffff; overflow: hidden; position: relative; }
+        .quote-wrapper { width: 100%; max-width: 1200px; margin: 0 auto; transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1); }
+        .quote-card { position: relative; width: 100%; border-radius: 80px; padding: 100px 60px; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.05); text-align: center; }
+        .quote-card.dark { background-color: #204f3b; color: #ffffff; }
+        .quote-card.dark::before, .service-card::before { content: ''; position: absolute; inset: 0; background-image: url('https://bloem-co.com/wp-content/uploads/2026/05/topographic-01.svg'); background-size: cover; background-position: center; opacity: 0.09; pointer-events: none; z-index: 1; }
+        .quote-card.dark .glass-square { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .quote-card.light { background-color: #f4f4f2; color: #204f3b; }
+        .quote-card.light::before { content: ''; position: absolute; inset: 0; background-image: url('https://bloem-co.com/wp-content/uploads/2026/05/topographic-01.svg'); background-size: cover; background-position: center; opacity: 0.04; pointer-events: none; z-index: 1; }
+        .quote-card.light .glass-square { background: rgba(32, 79, 59, 0.08); border: 1px solid rgba(32, 79, 59, 0.1); }
+        .glass-square { position: absolute; width: 250px; height: 250px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-radius: 60px; left: 80px; top: 50%; transform: translateY(-50%); z-index: 2; transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1); }
+        .quote-text { position: relative; z-index: 3; font-size: clamp(1.4rem, 3.2vw, 2.2rem); font-weight: 400; line-height: 1.4; max-width: 800px; margin-bottom: 24px; opacity: 0; transition: opacity 1s ease-in, transform 0.6s cubic-bezier(0.25, 1, 0.5, 1); }
+        .quote-text.visible { opacity: 1; }
+        .quote-cta { position: relative; z-index: 3; opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out 0.4s, transform 0.8s ease-out 0.4s; }
+        .quote-cta.visible { opacity: 1; transform: translateY(0); }
+        .quote-cta-btn { display: inline-block; background-color: #ffffff; color: #204f3b; padding: 14px 32px; border-radius: 30px; text-decoration: none; font-weight: 700; font-size: 14px; transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1); border: 1px solid rgba(0,0,0,0.02); }
+        .quote-cta-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(32, 79, 59, 0.15); background-color: #fcfcfc; }
+    </style>
+
+    <style>
+        /* --- TESTIMONIALS --- */
+        .testimonials-section { padding: clamp(100px, 10vw, 160px) 0; background-color: #e7efea; position: relative; overflow: hidden; }
+        .testimonials-header { padding: 0 10%; margin-bottom: 50px; }
+        .testimonials-header h2 { font-size: clamp(1.6rem, 2.5vw, 2.2rem); font-weight: 600; position: relative; display: inline-block; }
+        .testimonials-header h2::after { content: ''; position: absolute; width: 40px; height: 3px; background: #204f3b; bottom: -8px; left: 0; border-radius: 2px; }
+        .testimonials-container { width: 100%; overflow: hidden; cursor: grab; user-select: none; touch-action: pan-y; }
+        .testimonial-track { display: flex; gap: 30px; padding: 20px 0; width: max-content; transition: transform 0.1s linear; will-change: transform; }
+        .testimonial-card { flex: 0 0 500px; background: #ffffff; padding: 45px 40px; border-radius: 60px; border: 1px solid rgba(32, 79, 59, 0.08); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02); display: flex; flex-direction: column; justify-content: space-between; pointer-events: none; }
+        .testimonial-content { font-size: 0.98rem; line-height: 1.6; color: #5a5954; margin-bottom: 25px; text-align: left; }
+        .testimonial-author { border-top: 1px solid rgba(0,0,0,0.05); padding-top: 20px; text-align: left; }
+        .testimonial-author h4 { font-size: 16px; font-weight: 600; color: #3a3936; }
+        .testimonial-author p { font-size: 13px; color: #777; margin-top: 2px; }
+
+        /* --- OUR SERVICES --- */
+        .services-section { padding: clamp(100px, 10vw, 160px) 10%; background-color: #ffffff; position: relative; }
+        .services-header { margin-bottom: 60px; text-align: left; }
+        .services-header h2 { font-size: clamp(1.6rem, 2.5vw, 2.2rem); font-weight: 600; position: relative; display: inline-block; }
+        .services-header h2::after { content: ''; position: absolute; width: 40px; height: 3px; background: #204f3b; bottom: -8px; left: 0; border-radius: 2px; }
+        .services-decor-svg { position: absolute; width: 46px; height: 46px; top: 100px; right: 10%; pointer-events: none; opacity: 0.8; }
+        .services-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; max-width: 1200px; margin: 0 auto 40px auto; }
+        .service-card { position: relative; background: #204f3b; padding: 60px 48px; border-radius: 40px; transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1); display: flex; flex-direction: column; justify-content: space-between; min-height: 290px; opacity: 0; transform: translateY(30px); overflow: hidden; }
+        .service-card.is-visible { opacity: 1; transform: translateY(0); }
+        .service-card:hover { transform: translateY(-10px); box-shadow: 0 30px 60px rgba(32, 79, 59, 0.2); }
+        .service-number { position: relative; z-index: 2; font-size: 2rem; font-weight: 700; color: #ff9e29; margin-bottom: 20px; }
+        .service-title { position: relative; z-index: 2; font-size: 1.5rem; font-weight: 700; letter-spacing: 0px; text-transform: none; line-height: 1.4; color: #ffffff; }
+        
+        .services-cta-wrap { display: flex; justify-content: center; width: 100%; margin-top: 20px; }
+        .services-cta-link { display: inline-block; background: #204f3b; color: #ffffff; padding: 16px 42px; border-radius: 35px; text-decoration: none; font-weight: 700; font-size: 15px; border: none; transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1); box-shadow: 0 8px 25px rgba(32, 79, 59, 0.12); }
+        .services-cta-link:hover { background: #163629; transform: translateY(-3px); box-shadow: 0 12px 30px rgba(32, 79, 59, 0.22); }
+
+        /* --- CONTACT SECTION --- */
+        .contact-section { padding: clamp(120px, 12vw, 180px) 10%; background-color: #e7efea; position: relative; overflow: hidden; }
+        .contact-section .grid-overlay { background-image: radial-gradient(rgba(255, 255, 255, 0.8) 1.5px, transparent 1.5px); background-size: 30px 30px; }
+        .contact-container { position: relative; z-index: 2; max-width: 700px; margin: 0 auto; background: #ffffff; padding: 60px; border-radius: 40px; border: 1px solid rgba(32, 79, 59, 0.1); box-shadow: 0 30px 80px rgba(0, 0, 0, 0.06); }
+        .contact-container h2 { font-size: clamp(1.6rem, 2.5vw, 2.2rem); font-weight: 600; color: #3a3936; margin-bottom: 24px; position: relative; }
+        .progress-bar-container { display: flex; justify-content: space-between; margin-bottom: 50px; position: relative; }
+        .progress-bar-container::after { content: ''; position: absolute; top: 50%; left: 0; width: 100%; height: 2px; background: #c3d3c8; z-index: 1; transform: translateY(-50%); }
+        .progress-step { width: 35px; height: 35px; border-radius: 50%; background: #ffffff; border: 2px solid #c3d3c8; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #7fa08c; position: relative; z-index: 2; transition: all 0.4s ease; }
+        .progress-step.active { border-color: #204f3b; color: #204f3b; }
+        .progress-step.completed { background: #204f3b; border-color: #204f3b; color: white; }
+        .step-content { display: none; animation: fadeIn 0.5s ease; }
+        .step-content.active { display: block; }
+        .form-group { margin-bottom: 25px; }
+        .form-group label { display: block; font-size: 14px; font-weight: 600; color: #3a3936; margin-bottom: 10px; }
+        .form-input { width: 100%; padding: 15px 20px; border-radius: 12px; border: 1px solid rgba(0, 0, 0, 0.1); font-family: inherit; font-size: 15px; outline: none; background: #ffffff; transition: 0.3s; }
+        .form-input:focus { border-color: #204f3b; box-shadow: 0 0 0 4px rgba(32, 79, 59, 0.1); }
+        .button-group { display: flex; justify-content: space-between; margin-top: 40px; }
+        .btn-prev { background: transparent; color: #6e8275; border: 1px solid #c3d3c8; padding: 12px 25px; border-radius: 12px; font-weight: 600; cursor: pointer; visibility: hidden; }
+        .btn-prev.visible { visibility: visible; }
+
+        /* --- FOOTER --- */
+        .footer-content { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 80px; }
+        footer { background-color: #3a3936; color: #ffffff; padding: 80px 10% 40px 10%; position: relative; z-index: 10; }
+        .footer-brand .footer-logo { height: 45px; width: auto; filter: brightness(0) invert(1); margin-bottom: 25px; }
+        .footer-brand p { font-size: 15px; line-height: 1.7; color: rgba(255, 255, 255, 0.7); max-width: 350px; }
+        .footer-links h4 { font-size: 18px; font-weight: 600; margin-bottom: 25px; position: relative; }
+        .footer-links h4::after { content: ''; position: absolute; width: 30px; height: 2px; background: #204f3b; bottom: -8px; left: 0; }
+        .footer-links ul { list-style: none; }
+        .footer-links ul li { margin-bottom: 15px; }
+        .footer-links ul li a { color: rgba(255, 255, 255, 0.7); text-decoration: none; font-size: 15px; transition: color 0.3s ease; }
+        .footer-links ul li a:hover { color: #ff9e29; }
+        .footer-bottom { max-width: 1200px; margin: 60px auto 0 auto; padding-top: 30px; border-top: 1px solid rgba(255, 255, 255, 0.1); display: flex; justify-content: space-between; align-items: center; font-size: 14px; color: rgba(255, 255, 255, 0.5); }
+
+        /* --- RESPONSIVE VIEWPORT NORMALIZATION --- */
+        @media (max-width: 1100px) {
+            header { top: 15px; height: 75px; padding: 0 25px; width: 92%; }
+            .logo-wrapper { padding: 6px 14px; border-radius: 18px; }
+            .logo-img { height: 26px; }
+            .hamburger { display: block; }
+            
+            nav { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 1050; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.4s cubic-bezier(0.25, 1, 0.5, 1); }
+            nav.active { opacity: 1; visibility: visible; pointer-events: auto; }
+            nav ul { flex-direction: column; gap: 35px; text-align: center; }
+            nav ul li a { font-size: 22px; }
+            
+            .banner { flex-direction: column; text-align: center; padding-top: 150px; gap: 50px; padding-left: 5%; padding-right: 5%; }
+            .text-container { text-align: center; }
+            .visual-stack { width: 100%; max-width: 420px; height: 380px; flex: 0 0 auto; }
+            .main-card { width: 100%; height: 250px; border-radius: 125px; }
+            .vertical-background-pill { width: 60%; height: 110%; top: 50%; left: 50%; }
+            .accent-circle-back { width: 50px; height: 50px; right: 10px; bottom: 10px; }
+            .hero-circle-svg { width: 60px; height: 60px; top: 10px; left: 10px; }
+
+            .blog-grid { grid-template-columns: 1fr; gap: 30px; }
+            .services-grid { grid-template-columns: 1fr; gap: 20px; }
+            .team-grid { gap: 25px; }
+            .footer-content { grid-template-columns: 1fr; gap: 40px; }
+            .testimonial-card { flex: 0 0 320px; padding: 30px; }
+        }
+
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes glowPulse { 0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; } 50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.4; } }
+    </style>
+  <link rel="icon" type="image/svg+xml" href="https://bloem-co.com/wp-content/uploads/2026/05/bloem-co-star-01.svg">
+</head>
+<body>
+
+  <header>
+        <div class="logo-wrapper">
+            <a href="/" class="logo-link">
+                <img src="https://bloem-co.com/wp-content/uploads/2026/05/bloem-co-presentation-logo-01.svg" alt="Bloem Co Logo" class="logo-img">
+            </a>
+        </div>
+        
+        <nav id="nav-menu">
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/services/">Services</a></li>
+                <li><a href="/projects/">Projects</a></li>
+                <li><a href="/team/">Team</a></li>
+                <li><a href="/contact/">Contact</a></li>
+            </ul>
+        </nav>
+
+        <button class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </header>
+
+    <section class="banner">
+        <div class="grid-overlay"></div>
+        <div class="text-container">
+            <h1><strong>Clarity.</strong> Structure. Impact.</h1>
+            <p>Bloem Consulting Services is a multidisciplinary consultancy powered by a young, diverse team. We thrive in high-pressure environments, bringing structure and momentum to complex programmes.</p>
+            <a href="/services/" class="hero-cta-button">Explore Services</a>
+        </div>
+        
+        <div class="visual-stack" id="hero-stack">
+            <div class="hero-glow"></div>
+            
+            <div class="parallax-layer" id="layer-bg-pill">
+                <div class="vertical-background-pill" id="hero-bg-pill"></div>
+            </div>
+            
+            <div class="parallax-layer" id="layer-accent-circle">
+                <div class="accent-circle-back" id="hero-accent-circle"></div>
+            </div>
+            
+            <div class="parallax-layer" id="layer-circle-svg">
+                <img src="https://bloem-co.com/wp-content/uploads/2026/05/circle1-01.svg" alt="Circle Icon" class="hero-circle-svg" id="hero-circle-svg">
+            </div>
+            
+            <div class="parallax-layer" id="layer-main-card">
+                <div class="main-card" id="hero-main">
+                    <img src="https://bloem-co.com/wp-content/uploads/2026/05/bloemco-hero-images.webp" alt="Consulting Success">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider" data-trigger="divider"></div>
+
+    <section class="about-section" id="about">
+        <img src="https://bloem-co.com/wp-content/uploads/2026/05/about-us-bloom-01.svg" alt="Bloom Crest" id="about-bloom-svg">
+        
+        <div class="about-content">
+            <h2>About us</h2>
+            <p>Bloem Consulting Services is a South Africa based, multidisciplinary consultancy driven by a young, diverse and hands-on team. We thrive in high-pressure environments, bringing structure, clarity, and momentum to complex programmes.</p>
+        </div>
+    </section>
+
+    <div class="section-divider" data-trigger="divider"></div>
+
+    <section class="blog-section" id="blog">
+        <div class="blog-header">
+            <h2>Latest Insights</h2>
+        </div>
+        
+        <img src="https://bloem-co.com/wp-content/uploads/2026/05/circle2-01.svg" alt="Branding Decor" class="blog-decor-svg">
+        
+        <div class="blog-grid">
+            <a href="/contact/" class="blog-card">
+                <div class="blog-img-box">
+                    <img src="https://bloem-co.com/wp-content/uploads/2026/05/hallway-1.webp" alt="Governance Compliance">
+                </div>
+                <div class="blog-meta">Trust Governance</div>
+                <h3 class="blog-title">Structuring Compliance Paths for Modern Trustees</h3>
+                <div class="blog-arrow">
+                    Read Article 
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </div>
+            </a>
+            
+            <a href="/contact/" class="blog-card">
+                <div class="blog-img-box">
+                    <img src="https://bloem-co.com/wp-content/uploads/2026/05/hardhats.webp" alt="Social Impact Evaluation">
+                </div>
+                <div class="blog-meta">Implementation</div>
+                <h3 class="blog-title">Measuring Local Impact Within South African Trusts</h3>
+                <div class="blog-arrow">
+                    Read Article 
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </div>
+            </a>
+            
+            <a href="/contact/" class="blog-card">
+                <div class="blog-img-box">
+                    <img src="https://bloem-co.com/wp-content/uploads/2026/05/teeam1.webp" alt="Portfolio Leadership Strategy">
+                </div>
+                <div class="blog-meta">Strategic Advisory</div>
+                <h3 class="blog-title">How Diverse Consulting Teams Navigate High Pressure</h3>
+                <div class="blog-arrow">
+                    Read Article 
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <div class="section-divider" data-trigger="divider"></div>
+
+    <section class="team-section" id="team">
+        <div class="team-header">
+            <h2>Our professional team</h2>
+        </div>
+        
+        <div class="team-grid">
+            <div class="team-card">
+                <img src="https://bloem-co.com/wp-content/uploads/2026/07/fowzia2.webp" alt="Fowzia Davids">
+                <div class="team-info"><h3>Fowzia Davids</h3><p>Managing Director</p></div>
+            </div>
+            <div class="team-card">
+                <img src="https://bloem-co.com/wp-content/uploads/2026/05/team2-07.webp" alt="Ineke Stemmet">
+                <div class="team-info"><h3>Ineke Stemmet</h3><p>Deputy Director</p></div>
+            </div>
+            <div class="team-card">
+                <img src="https://bloem-co.com/wp-content/uploads/2026/05/team2-11.webp" alt="Buck Whaley">
+                <div class="team-info"><h3>Buck Whaley</h3><p>Project Manager: Social Impact and Strategy</p></div>
+            </div>
+            <div class="team-card">
+                <img src="https://bloem-co.com/wp-content/uploads/2026/07/uyanda.webp" alt="Uyanda Mabece">
+                <div class="team-info"><h3>Uyanda Mabece</h3><p>Senior Policy Analyst and Strategist</p></div>
+            </div>
+            <div class="team-card">
+                <img src="https://bloem-co.com/wp-content/uploads/2026/05/team2-08.webp" alt="Pearl Mncube">
+                <div class="team-info"><h3>Pearl Mncube</h3><p>Stakeholder Management and Public Policy</p></div>
+            </div>
+        </div>
+
+        <div class="team-cta-wrap">
+            <a href="/team/" class="team-cta-btn">See full team</a>
+        </div>
+    </section>
+
+    <section class="trust-section pan-section">
+        <div class="quote-wrapper">
+            <div class="quote-card dark">
+                <div class="glass-square"></div>
+                <h2 class="quote-text">Strategic advisory support to South African initiatives and complex multidisciplinary portfolios.</h2>
+                <div class="quote-cta"><a href="/contact/" class="quote-cta-btn">Get in Touch</a></div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider" data-trigger="divider"></div>
+
+    <section class="testimonials-section">
+        <div class="testimonials-header"><h2>What our clients say</h2></div>
+        <div class="testimonials-container" id="slider-container">
+            <div class="testimonial-track" id="slider-track">
+                <div class="testimonial-card">
+                    <p class="testimonial-content">"Working with Bloem-Co has been an absolute pleasure, the level of professionalism and ability to deliver in a fast-paced and dynamic environment has been a strength that they brought to our local government focus within the Presidency"</p>
+                    <div class="testimonial-author"><h4>Khule Duma</h4><p>Portfolio Lead, Office of the President</p></div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-content">"It has been a pleasure to work with the capable and competent team at Bloem-Co. Their ability to synthesise complex details at a quick pace has brought a dynamism to work that they support in the Presidency."</p>
+                    <div class="testimonial-author"><h4>Carmel Joseph</h4><p>Portfolio Lead: Local Government Private Office of the President</p></div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-content">"In all respects, Bloem Consulting has proven to be a disciplined, transparent, and service-orient administrator, with a clear understanding of both governance standards and the socio-economic realities of our communities."</p>
+                    <div class="testimonial-author"><h4>Leon Olifant</h4><p>Former Community Trustee of the Mulilo De Aar Solar Community Trust</p></div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-content">"I compliment your company for the excellent and dedicated work that you and your staff have given to us in my term as community trustee."</p>
+                    <div class="testimonial-author"><h4>Johannes van Schalkwyk</h4><p>Community Trustee, Mulilo Prieska Solar Community Trust</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider" data-trigger="divider"></div>
+
+    <section class="services-section" id="services">
+        <div class="services-header">
+            <h2>Our Services</h2>
+        </div>
+        
+        <img src="https://bloem-co.com/wp-content/uploads/2026/05/circle2-01.svg" alt="Branding Decor" class="services-decor-svg">
+        
+        <div class="services-grid">
+            <div class="service-card" data-trigger="service">
+                <div class="service-number">01</div>
+                <h3 class="service-title">Strategic and secretarial support</h3>
+            </div>
+            <div class="service-card" data-trigger="service">
+                <div class="service-number">02</div>
+                <h3 class="service-title">Trust administration &amp; governance advisory</h3>
+            </div>
+            <div class="service-card" data-trigger="service">
+                <div class="service-number">03</div>
+                <h3 class="service-title">Research policy analysis and risk assessment</h3>
+            </div>
+            <div class="service-card" data-trigger="service">
+                <div class="service-number">04</div>
+                <h3 class="service-title">Project management &amp; implementation</h3>
+            </div>
+        </div>
+
+        <div class="services-cta-wrap">
+            <a href="/services/" class="services-cta-link">Explore Full Services</a>
+        </div>
+    </section>
+
+    <section class="trust-section pan-section">
+        <div class="quote-wrapper">
+            <div class="quote-card light">
+                <div class="glass-square"></div>
+                <h2 class="quote-text">Bringing strategic structure to South Africa based development.</h2>
+                <div class="quote-cta"><a href="/services/" class="quote-cta-btn">Our Strategy</a></div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider" data-trigger="divider"></div>
+
+    <section class="clients-section">
+        <h3 class="clients-header">Our Projects</h3>
+        <div class="clients-container">
+            <div class="clients-track" id="clients-track">
+                <img src="https://bloem-co.com/wp-content/uploads/2026/06/Maishalogo.white_-1024x146-1.png" alt="Maisha Logo" class="client-logo maisha-reduced">
+                <img src="https://bloem-co.com/wp-content/uploads/2026/05/bloem-co-presentation-logo-02.webp" alt="Enterprise South Africa" class="client-logo">
+                <img src="https://bloem-co.com/wp-content/uploads/2026/06/Speyside.png" alt="Speyside Logo" class="client-logo">
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-section" id="contact">
+        <div class="grid-overlay"></div>
+        <div class="contact-container">
+            <div class="progress-bar-container">
+                <div class="progress-step active" data-step="1">1</div>
+                <div class="progress-step" data-step="2">2</div>
+                <div class="progress-step" data-step="3">3</div>
+            </div>
+            <form id="multiStepForm" name="contact" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field" onsubmit="event.preventDefault();">
+                <input type="hidden" name="form-name" value="contact">
+                <input type="hidden" name="source" value="Home page">
+                <p hidden><label>Leave this field empty: <input name="bot-field"></label></p>
+                <div class="step-content active" data-step="1">
+                    <h2>Let's work together, get in touch</h2>
+                    <div class="form-group"><label>Full Name</label><input type="text" id="name" name="name" class="form-input" required placeholder="e.g. John Doe"></div>
+                    <div class="form-group"><label>Email Address</label><input type="email" id="email" name="email" class="form-input" required placeholder="name@company.com"></div>
+                </div>
+                <div class="step-content" data-step="2">
+                    <h2>What do you need?</h2>
+                    <div class="form-group"><label>Service Category</label><select id="service" name="service" class="form-input"><option>Strategic Support</option><option>Trust Administration</option><option>Risk Assessment</option><option>Project Management</option></select></div>
+                    <div class="form-group"><label>Brief Overview</label><textarea id="message" name="message" class="form-input" rows="3"></textarea></div>
+                </div>
+                <div class="step-content" data-step="3">
+                    <h2>Ready to send?</h2>
+                    <div style="background: rgba(32, 79, 59, 0.05); padding: 20px; border-radius: 25px; border: 1px dashed #204f3b;"><p id="summary-text" style="font-size: 14px; color: #204f3b;"></p></div>
+                </div>
+                <div class="button-group">
+                    <button type="button" class="btn-prev" id="prevBtn">Back</button>
+                    <button type="button" class="cta-button" id="nextBtn">Continue</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand"><img src="https://bloem-co.com/wp-content/uploads/2026/05/bloem-co-presentation-logo-01.svg" alt="Bloem Co" class="footer-logo"><p>A South Africa based, multidisciplinary consultancy dedicated to bringing clarity to complex programs.</p></div>
+            <div class="footer-links">
+                <h4>Explore</h4>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/services/">Services</a></li>
+                    <li><a href="/projects/">Projects</a></li>
+                    <li><a href="/team/">Team</a></li>
+                    <li><a href="/contact/">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Contact Info</h4>
+                <ul>
+                    <li><a href="mailto:info@bloem-co.com">info@bloem-co.com</a></li>
+                    <li><a href="/">Privacy Policy</a></li>
+                    <li><a href="/">Terms &amp; Conditions</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom"><p>© 2026 Bloem Consulting Services. All rights reserved.</p></div>
+    </footer>
+
+    <script>
+        let mouseX = 0, mouseY = 0;
+        let targetX = 0, targetY = 0;
+        let scrollY = window.pageYOffset;
+        let targetScrollY = scrollY;
+
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+        if(hamburger && navMenu) {
+            hamburger.addEventListener('click', () => { 
+                hamburger.classList.toggle('active'); 
+                navMenu.classList.toggle('active'); 
+            });
+            
+            navMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    navMenu.classList.remove('active');
+                });
+            });
+        }
+
+        const track = document.getElementById('slider-track');
+        const container = document.getElementById('slider-container');
+        let slideX = 0;
+        let isPaused = false;
+        
+        if (track && container) {
+            const cards = Array.from(track.children);
+            for(let i = 0; i < 2; i++) {
+                cards.forEach(card => track.appendChild(card.cloneNode(true)));
+            }
+            
+            function animateSlider() { 
+                if (!isPaused) {
+                    slideX -= 0.45; 
+                    if (Math.abs(slideX) >= (track.scrollWidth / 3)) slideX = 0; 
+                    track.style.transform = `translateX(${slideX}px)`; 
+                }
+                requestAnimationFrame(animateSlider); 
+            }
+            animateSlider();
+
+            container.addEventListener('mouseenter', () => { isPaused = true; });
+            container.addEventListener('mouseleave', () => { isPaused = false; });
+        }
+
+        const clientsTrack = document.getElementById('clients-track');
+        if(clientsTrack) {
+            Array.from(clientsTrack.children).forEach(logo => clientsTrack.appendChild(logo.cloneNode(true)));
+        }
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX / window.innerWidth) - 0.5;
+            mouseY = (e.clientY / window.innerHeight) - 0.5;
+        });
+
+        window.addEventListener('scroll', () => {
+            scrollY = window.pageYOffset;
+        });
+
+        const layerMainCard = document.getElementById('layer-main-card');
+        const layerBgPill = document.getElementById('layer-bg-pill');
+        const layerAccentCircle = document.getElementById('layer-accent-circle');
+        const layerCircleSvg = document.getElementById('layer-circle-svg');
+
+        function updateParallax() {
+            targetX += (mouseX - targetX) * 0.08;
+            targetY += (mouseY - targetY) * 0.08;
+            targetScrollY += (scrollY - targetScrollY) * 0.08;
+
+            const scrollOffset = targetScrollY * 0.15;
+
+            if (layerMainCard) {
+                layerMainCard.style.transform = `translateX(${targetX * 35}px) translateY(${targetY * 15 - scrollOffset * 0.4}px)`;
+            }
+            if (layerBgPill) {
+                layerBgPill.style.transform = `translate(-50%, -50%) translateX(${targetX * -40}px) translateY(${targetY * -20 - scrollOffset * 0.7}px)`;
+            }
+            if (layerAccentCircle) {
+                layerAccentCircle.style.transform = `translateX(${targetX * 55}px) translateY(${targetY * 35 - scrollOffset * 0.2}px)`;
+            }
+            if (layerCircleSvg) {
+                layerCircleSvg.style.transform = `translateX(${targetX * -60}px) translateY(${targetY * -45 - scrollOffset * 0.6}px)`;
+            }
+
+            requestAnimationFrame(updateParallax);
+        }
+        updateParallax();
+
+        const panSections = document.querySelectorAll('.pan-section');
+        panSections.forEach(section => {
+            const wrapper = section.querySelector('.quote-wrapper');
+            const glass = section.querySelector('.glass-square');
+            section.addEventListener('mousemove', (e) => {
+                const { width, height } = section.getBoundingClientRect();
+                const mouseXLocal = (e.clientX / width) - 0.5;
+                const mouseYLocal = (e.clientY / height) - 0.5;
+                wrapper.style.transform = `translateX(${mouseXLocal * 30}px) translateY(${mouseYLocal * 15}px)`;
+                if(glass) glass.style.transform = `translateY(-50%) translateX(${mouseXLocal * -60}px)`;
+            });
+            section.addEventListener('mouseleave', () => {
+                wrapper.style.transform = 'translateX(0) translateY(0)';
+                if(glass) glass.style.transform = 'translateY(-50%) translateX(0)';
+            });
+        });
+
+
+        // Sends the form to Netlify Forms, then shows the thank-you message.
+        function sendToNetlify(form, button, onSuccess) {
+          button.disabled = true;
+          button.innerText = 'Sending...';
+          fetch('/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams(new FormData(form)).toString()
+          })
+            .then(function (res) {
+              if (!res.ok) throw new Error('Status ' + res.status);
+              onSuccess();
+            })
+            .catch(function () {
+              button.disabled = false;
+              button.innerText = 'Submit Request';
+              alert('Sorry, your message could not be sent. Please try again, or email us at info@bloem-co.com.');
+            });
+        }
+
+        function escapeHTML(value) {
+          return String(value).replace(/[&<>"']/g, function (c) {
+            return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+          });
+        }
+
+        let currentStep = 1;
+        const nextBtn = document.getElementById('nextBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const steps = document.querySelectorAll('.step-content');
+        const indicators = document.querySelectorAll('.progress-step');
+
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                if (currentStep === 1) {
+                    const nameInput = document.getElementById('name');
+                    const emailInput = document.getElementById('email');
+                    if (!nameInput.value || !emailInput.value || !emailInput.checkValidity()) {
+                        alert('Please fill out a valid name and email address.');
+                        return;
+                    }
+                }
+                if (currentStep < 3) { 
+                    currentStep++; 
+                    updateForm(); 
+                } else { 
+                    sendToNetlify(document.getElementById('multiStepForm'), nextBtn, () => {
+                    const container = document.querySelector('.contact-container');
+                    if(container) {
+                        container.innerHTML = `
+                            <div style="text-align:center; padding: 40px 10px;">
+                                <img src="https://bloem-co.com/wp-content/uploads/2026/05/about-us-bloom-01.svg" style="width: 80px; height: 80px; margin-bottom: 24px; animation: glowPulse 2s infinite ease-in-out;" />
+                                <h2 style="color: #204f3b; margin-bottom: 15px;">Thank You!</h2>
+                                <p style="color: #5a5954;">Your consultation details have been submitted successfully. A Bloem representative will connect with you shortly.</p>
+                            </div>
+                        `;
+                    }
+                    });
+                }
+            });
+        }
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => { 
+                if (currentStep > 1) { 
+                    currentStep--; 
+                    updateForm(); 
+                } 
+            });
+        }
+
+        function updateForm() {
+            steps.forEach(step => step.classList.remove('active'));
+            document.querySelector(`.step-content[data-step="${currentStep}"]`).classList.add('active');
+            indicators.forEach(ind => {
+                const stepNum = parseInt(ind.dataset.step);
+                ind.classList.remove('active', 'completed');
+                if (stepNum === currentStep) ind.classList.add('active');
+                if (stepNum < currentStep) ind.classList.add('completed');
+            });
+            prevBtn.classList.toggle('visible', currentStep > 1);
+            nextBtn.innerText = currentStep === 3 ? 'Submit Request' : 'Continue';
+            if(currentStep === 3) {
+                document.getElementById('summary-text').innerText = `Prepared for: ${document.getElementById('name').value || 'Guest'}. Selected Category: ${document.getElementById('service').value}.`;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const animItems = document.querySelectorAll('.quote-text, .quote-cta, [data-trigger="service"], [data-trigger="divider"]');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => { 
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible', 'is-visible'); 
+                    }
+                });
+            }, { threshold: 0.2 });
+            animItems.forEach(item => observer.observe(item));
+
+            const aboutBloom = document.getElementById('about-bloom-svg');
+            const bloomObserver = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        aboutBloom.classList.add('bloom-animated');
+                    }
+                });
+            }, { threshold: 0.15 });
+            if (aboutBloom) bloomObserver.observe(aboutBloom);
+        });
+    </script>
+
+</body>
+</html>

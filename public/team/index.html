@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Team | Bloem Consulting Services</title>
+  <style>
+    /* --- BRAND FONTS REGISTRATION --- */
+    @font-face {
+      font-family: 'Gully';
+      src: url('https://bloem-co.com/wp-content/uploads/2026/05/Gully-Regular.ttf') format('truetype');
+      font-weight: 400;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: 'Gully';
+      src: url('https://bloem-co.com/wp-content/uploads/2026/05/Gully-Bold.ttf') format('truetype');
+      font-weight: 700;
+      font-style: normal;
+    }
+
+    /* --- GLOBAL STYLES & LAYOUT LEAK PREVENTION --- */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; overflow-x: hidden; background-color: #fcfcfc; color: #3a3936; font-family: 'Gully', sans-serif; scroll-behavior: smooth; }
+
+    /* --- DIVIDERS --- */
+    .section-divider { width: 1px; height: 100px; background-color: #204f3b; margin: 40px auto; transform: scaleY(0); opacity: 0; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease; transform-origin: top; }
+    .section-divider.is-visible { transform: scaleY(1); opacity: 1; }
+
+    /* --- NAVIGATION --- */
+    header { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 1200px; height: 80px; background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 40px; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; z-index: 1000; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05); }
+    .logo-wrapper { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(8px); border: 1px solid rgba(32, 79, 59, 0.1); border-radius: 24px; padding: 6px 20px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+    .logo-link { display: flex; align-items: center; text-decoration: none; z-index: 1100; }
+    .logo-img { height: 32px; width: auto; }
+    
+    nav ul { display: flex; list-style: none; gap: 30px; }
+    nav ul li a { text-decoration: none; color: #3a3936; font-size: 16px; font-weight: 700; position: relative; padding-bottom: 5px; transition: color 0.3s ease; }
+    nav ul li a::after { content: ''; position: absolute; width: 0; height: 3px; bottom: 0; left: 50%; background-color: #204f3b; transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1); transform: translateX(-50%); }
+    nav ul li a:hover { color: #204f3b; }
+    nav ul li a:hover::after { width: 100%; }
+    
+    .hamburger { display: none; cursor: pointer; z-index: 1100; background: none; border: none; padding: 10px; }
+    .hamburger span { display: block; width: 25px; height: 3px; background: #3a3936; margin: 5px 0; transition: 0.3s ease; }
+
+    /* --- THEMED HERO HEADER (SOLID GREEN BACKDROP) --- */
+    .banner { position: relative; width: 100%; min-height: 55vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 160px 10% 80px 10%; background-color: #204f3b; overflow: hidden; text-align: center; }
+    .grid-overlay { position: absolute; inset: 0; background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1.5px, transparent 1.5px); background-size: 30px 30px; z-index: 1; pointer-events: none; }
+    
+    /* Central Rotating Star Crest Assembly */
+    .hero-star-box { margin-bottom: 25px; z-index: 5; opacity: 0; display: flex; align-items: center; justify-content: center; animation: heroStarEntrance 1s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+    .hero-star-svg { width: 50px; height: 50px; filter: brightness(0) invert(1); animation: infiniteStarRotation 15s linear infinite; }
+    
+    .text-container { position: relative; z-index: 5; max-width: 800px; margin: 0 auto; width: 100%; }
+    .text-container h1 { font-family: 'Gully', sans-serif; font-weight: 700; color: #ffffff; font-size: clamp(2.5rem, 5vw, 3.8rem); line-height: 1.15; margin-bottom: 24px; opacity: 0; animation: fadeInUp 0.8s ease-out forwards 0.2s; }
+    .text-container h1 strong { font-weight: 700; position: relative; display: inline-block; }
+    .text-container h1 strong::after { content: ''; position: absolute; left: 0; bottom: -2px; width: 100%; height: 4px; background-color: #e4b467; border-radius: 2px; }
+    .text-container p { color: rgba(255, 255, 255, 0.85); font-size: clamp(1.1rem, 1.4vw, 1.3rem); line-height: 1.7; opacity: 0; animation: fadeInUp 0.8s ease-out forwards 0.4s; max-width: 700px; margin: 0 auto; }
+
+    /* --- CORE VALUES STRIP --- */
+    .values-section { padding: clamp(60px, 6vw, 100px) 10%; background-color: #ffffff; text-align: center; }
+    .values-title { font-family: 'Gully', sans-serif; font-size: clamp(1.8rem, 2.8vw, 2.4rem); color: #204f3b; font-weight: 700; margin-bottom: 20px; }
+    .values-subtitle { color: #5a5954; font-size: 1.1rem; max-width: 700px; margin: 0 auto 50px auto; line-height: 1.6; }
+    .values-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; width: 100%; }
+    .value-card { background: #f7f9f7; padding: 40px 30px; border-radius: 30px; border: 1px solid rgba(32, 79, 59, 0.05); text-align: left; transition: transform 0.4s ease, box-shadow 0.4s ease; }
+    .value-card:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(32, 79, 59, 0.06); }
+    .value-card .value-icon { font-family: 'Gully', sans-serif; font-size: 24px; color: #e4b467; font-weight: 700; margin-bottom: 15px; }
+    .value-card h3 { font-family: 'Gully', sans-serif; font-size: 20px; font-weight: 700; color: #204f3b; margin-bottom: 15px; }
+    .value-card p { font-size: 15px; color: #5a5954; line-height: 1.6; }
+
+    /* --- BIOGRAPHY EDITORIAL GRID STYLES --- */
+    .roster-section { padding: clamp(80px, 8vw, 120px) 5%; background-color: #ffffff; text-align: center; overflow: hidden; }
+    .roster-title { font-family: 'Gully', sans-serif; font-size: clamp(2rem, 3vw, 2.8rem); font-weight: 700; color: #204f3b; margin-bottom: 60px; position: relative; }
+    
+    .roster-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(333px, 1fr)); gap: 40px; max-width: 1200px; margin: 0 auto; justify-items: center; width: 100%; }
+    
+    /* Premium Standardized Capsule Shape Profile Cards */
+    .bio-card { width: 333px; height: 575px; background: #ffffff; border-radius: 166px 166px 40px 40px; overflow: hidden; position: relative; box-shadow: 0 15px 40px rgba(0,0,0,0.04); border: 1px solid rgba(32, 79, 59, 0.06); display: flex; flex-direction: column; transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+    .bio-card:hover { transform: translateY(-8px); box-shadow: 0 25px 50px rgba(32, 79, 59, 0.1); }
+    
+    /* Rigid layout bounding to enforce identical image heights */
+    .bio-image-wrapper { width: 100%; height: 320px; overflow: hidden; background-color: #e7efea; position: relative; flex-shrink: 0; }
+    .bio-image-wrapper img { width: 100%; height: 100%; object-fit: cover; object-position: top center; transition: transform 0.6s ease; }
+    .bio-card:hover .bio-image-wrapper img { transform: scale(1.05); }
+
+    /* Premium Grey Silhouette Placeholder State for Pending Assets */
+    .bio-image-wrapper.placeholder-grey { background: linear-gradient(135deg, #cbd5e1 0%, #94a3b8 100%); display: flex; align-items: center; justify-content: center; }
+    .bio-image-wrapper.placeholder-grey::after { content: ''; position: absolute; width: 100px; height: 100px; background-image: url('https://bloem-co.com/wp-content/uploads/2026/05/bloem-co-star-01.svg'); background-size: contain; background-position: center; background-repeat: no-repeat; opacity: 0.35; filter: brightness(0); }
+
+    /* Flex content configuration creates strict row metric balance */
+    .bio-info-wrapper { padding: 25px 30px 30px 30px; display: flex; flex-direction: column; flex-grow: 1; text-align: left; background: #ffffff; position: relative; overflow: hidden; }
+    .bio-tag { font-family: 'Gully', sans-serif; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: #e4b467; margin-bottom: 6px; }
+    .bio-info-wrapper h3 { font-family: 'Gully', sans-serif; font-size: 21px; font-weight: 700; color: #204f3b; margin-bottom: 4px; line-height: 1.2; }
+    .bio-role { font-family: 'Gully', sans-serif; font-size: 14px; font-weight: 700; font-style: italic; color: #5a5954; margin-bottom: 12px; }
+    .bio-snippet { font-size: 13.5px; color: #6a6964; line-height: 1.55; margin-bottom: 15px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; }
+    
+    .bio-action-btn { font-family: 'Gully', sans-serif; font-size: 13px; font-weight: 700; color: #204f3b; text-decoration: none; border: none; background: none; text-align: left; cursor: pointer; display: flex; align-items: center; gap: 6px; margin-top: auto; padding-top: 12px; border-top: 1px solid rgba(0,0,0,0.05); width: 100%; }
+    .bio-action-btn::after { content: '→'; font-size: 14px; transition: transform 0.3s ease; }
+    .bio-card:hover .bio-action-btn::after { transform: translateX(4px); }
+
+    /* --- OVERLAY MODAL DRAWERS --- */
+    .bio-overlay { position: fixed; inset: 0; background: rgba(32, 79, 59, 0.4); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 2000; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .bio-overlay.active { opacity: 1; pointer-events: all; }
+    
+    .bio-modal { background: #ffffff; width: 100%; max-width: 680px; max-height: 85vh; border-radius: 40px; overflow-y: auto; box-shadow: 0 30px 70px rgba(0,0,0,0.15); border: 1px solid rgba(255,255,255,0.5); transform: translateY(30px); opacity: 0; transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), opacity 0.4s ease; position: relative; padding: 45px; }
+    .bio-overlay.active .bio-modal { transform: translateY(0); opacity: 1; }
+    
+    .modal-close { position: absolute; top: 25px; right: 25px; width: 40px; height: 40px; border-radius: 50%; background: #f7f9f7; border: 1px solid rgba(0,0,0,0.04); font-size: 20px; color: #3a3936; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.3s, color 0.3s; z-index: 10; }
+    .modal-close:hover { background: #204f3b; color: #ffffff; }
+
+    .modal-header { display: flex; gap: 30px; align-items: center; margin-bottom: 30px; padding-bottom: 25px; border-bottom: 1px solid rgba(0,0,0,0.06); }
+    .modal-avatar { width: 110px; height: 110px; border-radius: 35px; overflow: hidden; background-color: #e7efea; flex-shrink: 0; border: 2px solid #ffffff; box-shadow: 0 10px 25px rgba(32,79,59,0.1); }
+    .modal-avatar img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+    .modal-avatar.avatar-grey-state { background: linear-gradient(135deg, #cbd5e1 0%, #94a3b8 100%); display: flex; align-items: center; justify-content: center; }
+    .modal-avatar.avatar-grey-state::after { content: ''; width: 40px; height: 40px; background-image: url('https://bloem-co.com/wp-content/uploads/2026/05/bloem-co-star-01.svg'); background-size: contain; background-position: center; background-repeat: no-repeat; opacity: 0.3; filter: brightness(0); }
+    .modal-title-block h2 { font-family: 'Gully', sans-serif; font-size: 28px; color: #204f3b; font-weight: 700; margin-bottom: 4px; }
+    .modal-tagline { font-family: 'Gully', sans-serif; font-size: 15px; font-weight: 700; font-style: italic; color: #e4b467; }
+    
+    .modal-body-scroller p { font-size: 15.5px; color: #5a5954; line-height: 1.75; margin-bottom: 20px; text-align: left; }
+    .modal-meta-grid { display: grid; grid-template-columns: 1fr; gap: 15px; background: #f7f9f7; padding: 25px; border-radius: 24px; border: 1px solid rgba(32, 79, 59, 0.05); margin-top: 25px; text-align: left; }
+    .meta-group h4 { font-family: 'Gully', sans-serif; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #8c8b88; margin-bottom: 8px; }
+    .meta-pill-box { display: flex; flex-wrap: wrap; gap: 8px; }
+    .meta-pill { font-family: 'Gully', sans-serif; font-size: 13px; font-weight: 700; color: #204f3b; background: rgba(32, 79, 59, 0.06); padding: 5px 14px; border-radius: 10px; }
+
+    /* --- PANNING GLASSMorphic CTA SECTION --- */
+    .trust-section { padding: 100px 10%; background-color: #ffffff; overflow: hidden; position: relative; width: 100%; }
+    .quote-wrapper { width: 100%; max-width: 1200px; margin: 0 auto; transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1); }
+    .quote-card { position: relative; width: 100%; border-radius: 60px; padding: 80px 40px; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.05); text-align: center; background-color: #204f3b; color: #ffffff; }
+    .quote-card::before { content: ''; position: absolute; inset: 0; background-image: url('https://bloem-co.com/wp-content/uploads/2026/05/2588986_Mesa-de-trabajo-1.svg'); background-size: cover; background-position: center; opacity: 0.12; pointer-events: none; z-index: 1; }
+    .glass-square { position: absolute; width: 220px; height: 220px; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-radius: 50px; left: 80px; top: 50%; transform: translateY(-50%); z-index: 2; transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1); }
+    .quote-text { position: relative; z-index: 3; font-size: clamp(1.4rem, 2.8vw, 2rem); font-weight: 400; line-height: 1.4; max-width: 800px; margin-bottom: 32px; opacity: 0; transition: opacity 1s ease-in; }
+    .quote-text.visible { opacity: 1; }
+    .quote-cta { position: relative; z-index: 3; opacity: 0; transform: translateY(20px); transition: all 0.8s ease-out 0.2s; }
+    .quote-cta.visible { opacity: 1; transform: translateY(0); }
+    .cta-button { font-family: 'Gully', sans-serif; font-weight: 700; background: #204f3b; color: white; padding: 14px 32px; border-radius: 30px; text-decoration: none; transition: 0.3s ease; display: inline-block; border: none; cursor: pointer; text-align: center; }
+    .cta-button:hover { background: #163629; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(32, 79, 59, 0.2); }
+
+    /* --- FOOTER --- */
+    footer { background-color: #3a3936; color: #ffffff; padding: 80px 10% 40px 10%; position: relative; z-index: 10; width: 100%; }
+    .footer-content { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 80px; width: 100%; }
+    .footer-brand .footer-logo { height: 45px; width: auto; filter: brightness(0) invert(1); margin-bottom: 25px; }
+    .footer-brand p { font-size: 15px; line-height: 1.7; color: rgba(255, 255, 255, 0.7); max-width: 350px; }
+    .footer-links h4 { font-family: 'Gully', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 25px; position: relative; }
+    .footer-links h4::after { content: ''; position: absolute; width: 30px; height: 2px; background: #204f3b; bottom: -8px; left: 0; }
+    .footer-links ul { list-style: none; }
+    .footer-links ul li { margin-bottom: 15px; }
+    .footer-links ul li a { color: rgba(255, 255, 255, 0.7); text-decoration: none; font-size: 15px; transition: color 0.3s ease; }
+    .footer-links ul li a:hover { color: #e4b467; }
+    .footer-bottom { max-width: 1200px; margin: 60px auto 0 auto; padding-top: 30px; border-top: 1px solid rgba(255, 255, 255, 0.1); display: flex; justify-content: space-between; align-items: center; font-size: 14px; color: rgba(255, 255, 255, 0.5); width: 100%; }
+
+    /* --- KEYFRAMES MATRIX --- */
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes heroStarEntrance { from { opacity: 0; transform: scale(0.6) translateY(-20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+    @keyframes infiniteStarRotation { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+    /* --- STRICT RESPONSIVE VIEWPORT BOUNDARIES --- */
+    @media (max-width: 1100px) {
+      header { top: 15px; }
+      .logo-wrapper { height: 50px; padding: 8px 16px; }
+      .logo-img { height: 26px; }
+      .hamburger { display: block; }
+      
+      nav { position: fixed; top: 0; right: -100%; width: 100%; height: 100vh; background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); display: flex; flex-direction: column; align-items: center; justify-content: center; transition: 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); z-index: 1050; }
+      nav.active { right: 0; }
+      nav ul { flex-direction: column; gap: 40px; text-align: center; }
+      
+      .banner { padding-top: 150px; padding-bottom: 60px; min-height: auto; width: 100%; }
+      .values-section, .roster-section, .trust-section { padding-left: 5%; padding-right: 5%; width: 100%; }
+      .values-grid { grid-template-columns: 1fr; gap: 20px; width: 100%; }
+      .footer-content { grid-template-columns: 1fr; gap: 40px; width: 100%; }
+      
+      .modal-header { flex-direction: column; text-align: center; gap: 15px; }
+    }
+
+    @media (max-width: 600px) {
+      .quote-card { padding: 60px 20px; border-radius: 40px; }
+      .glass-square { display: none; }
+      
+      .roster-grid { gap: 30px; padding: 0; width: 100%; justify-content: center; align-items: center; }
+      .bio-card { width: 100%; max-width: 320px; height: auto; min-height: 550px; border-radius: 160px 160px 40px 40px; margin: 0 auto; }
+      .bio-image-wrapper { height: 280px; }
+      .bio-info-wrapper { padding: 20px 20px 25px 20px; }
+      .bio-snippet { -webkit-line-clamp: 4; }
+      
+      .bio-modal { padding: 30px 20px; border-radius: 30px; }
+    }
+  </style>
+  <link rel="icon" type="image/svg+xml" href="https://bloem-co.com/wp-content/uploads/2026/05/bloem-co-star-01.svg">
+</head>
+<body>
+
+  <header>
+    <div class="logo-wrapper">
+      <a href="/" class="logo-link">
+        <img src="https://bloem-co.com/wp-content/uploads/2026/05/bloem-co-presentation-logo-01.svg" alt="Bloem Co Logo" class="logo-img">
+      </a>
+    </div>
+    
+    <nav id="nav-menu">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/services/">Services</a></li>
+        <li><a href="/projects/">Projects</a></li>
+        <li><a href="/team/" style="color: #204f3b;">Team</a></li>
+        <li><a href="/contact/">Contact</a></li>
+      </ul>
+    </nav>
+
+    <button class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </header>
+
+  <section class="banner">
+    <div class="grid-overlay"></div>
+    
+    <div class="hero-star-box">
+      <img src="https://bloem-co.com/wp-content/uploads/2026/05/bloem-co-star-01.svg" class="hero-star-svg" alt="Bloem Co Star Motif Icon">
+    </div>
+    
+    <div class="text-container">
+      <h1>Our <strong>Team.</strong></h1>
+      <p>The team that leads and delivers our work. We navigate administrative landscapes and design strategies that are practical, realistic, and highly effective.</p>
+    </div>
+  </section>
+
+  <section class="values-section">
+    <h2 class="values-title">How We Work</h2>
+    <p class="values-subtitle">At Bloem-Co, we keep things simple. We’re guided by a set of values that shape how we show up, how we work, and how we partner. People are at the centre of everything we do.</p>
+    <div class="values-grid">
+      <div class="value-card">
+        <div class="value-icon">01</div>
+        <h3>Quality Above All</h3>
+        <p>We take pride in the quality of what we deliver. If we put our name on it, it’s done right.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">02</div>
+        <h3>Purposeful Flexibility</h3>
+        <p>Flexibility is at the heart of how we work. As projects shift and contexts evolve, we adapt quickly so decisions always stay aligned and purposeful.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">03</div>
+        <h3>Measurable Impact</h3>
+        <p>We care about progress you can see—clarity, structure, momentum, and measurable impact. Our work is designed to move things forward, not create noise.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider" data-trigger="divider"></div>
+
+  <section class="roster-section" id="meet-the-team">
+    <h2 class="roster-title">Meet the Team</h2>
+    
+    <div class="roster-grid">
+      
+      <div class="bio-card" data-member="fowzia">
+        <div class="bio-image-wrapper">
+          <img src="https://bloem-co.com/wp-content/uploads/2026/05/fowzia-davids.webp" alt="Fowzia Davids Portrait">
+        </div>
+        <div class="bio-info-wrapper">
+          <span class="bio-tag">Founder &amp; Director</span>
+          <h3>Fowzia Davids</h3>
+          <p class="bio-role">Managing Director</p>
+          <p class="bio-snippet">Fowzia sets the strategic direction and oversees the delivery of all major programmes. She leads key client relationships and ensures that each project is executed with structure, transparency, and impact.</p>
+          <button class="bio-action-btn">Read Full Biography</button>
+        </div>
+      </div>
+
+      <div class="bio-card" data-member="ineke">
+        <div class="bio-image-wrapper">
+          <img src="https://bloem-co.com/wp-content/uploads/2026/05/team2-07.webp" alt="Ineke Stemmet Portrait">
+        </div>
+        <div class="bio-info-wrapper">
+          <span class="bio-tag">Strategic Leadership</span>
+          <h3>Ineke Stemmet</h3>
+          <p class="bio-role">Deputy Director</p>
+          <p class="bio-snippet">Ineke provides strategic leadership across key projects and initiatives, offering expert guidance in planning, coordination, and complex problem-solving loops across trust frameworks.</p>
+          <button class="bio-action-btn">Read Full Biography</button>
+        </div>
+      </div>
+
+      <div class="bio-card" data-member="pearl">
+        <div class="bio-image-wrapper">
+          <img src="https://bloem-co.com/wp-content/uploads/2026/05/team2-08.webp" alt="Pearl Mncube Portrait">
+        </div>
+        <div class="bio-info-wrapper">
+          <span class="bio-tag">Public-Private Alignment</span>
+          <h3>Pearl Mncube</h3>
+          <p class="bio-role">Policy and Stakeholder Engagement Lead</p>
+          <p class="bio-snippet">Pearl leads our policy and stakeholder engagement function, managing relationships across the public and private sectors to support critical alignment parameters with regional government structures.</p>
+          <button class="bio-action-btn">Read Full Biography</button>
+        </div>
+      </div>
+
+      <div class="bio-card" data-member="buck">
+        <div class="bio-image-wrapper">
+          <img src="https://bloem-co.com/wp-content/uploads/2026/05/team2-11.webp" alt="Buck Whaley Portrait">
+        </div>
+        <div class="bio-info-wrapper">
+          <span class="bio-tag">Social Strategy</span>
+          <h3>Buck Whaley</h3>
+          <p class="bio-role">Project Manager: Social Impact and Strategy</p>
+          <p class="bio-snippet">Buck drives our social impact and strategy delivery portfolio, facilitating cross-sector collaboration and ensuring that development initiatives achieve practical and inclusive socio-economic outcomes.</p>
+          <button class="bio-action-btn">Read Full Biography</button>
+        </div>
+      </div>
+
+      <div class="bio-card" data-member="laverne">
+        <div class="bio-image-wrapper">
+          <img src="https://bloem-co.com/wp-content/uploads/2026/05/team2-09.webp" alt="Laverne Louw Portrait">
+        </div>
+        <div class="bio-info-wrapper">
+          <span class="bio-tag">Financial Governance</span>
+          <h3>Laverne Louw</h3>
+          <p class="bio-role">Strategic Finance Leader</p>
+          <p class="bio-snippet">Laverne leads our financial strategy and governance trackers, overseeing multi-entity financial operations, regulatory audit metrics, and the optimization of high-governance accounting frameworks.</p>
+          <button class="bio-action-btn">Read Full Biography</button>
+        </div>
+      </div>
+
+      <div class="bio-card" data-member="uyanda">
+        <div class="bio-image-wrapper">
+          <img src="https://bloem-co.com/wp-content/uploads/2026/05/team2-10.webp" alt="Uyanda Mabece Portrait">
+        </div>
+        <div class="bio-info-wrapper">
+          <span class="bio-tag">Policy &amp; Strategy</span>
+          <h3>Uyanda Mabece</h3>
+          <p class="bio-role">Senior Policy Analyst and Strategist</p>
+          <p class="bio-snippet">Uyanda leads our political analysis, research, and advocacy portfolio, driving strategic interventions across human rights and multi-country alignment platforms with over 15 years of insight.</p>
+          <button class="bio-action-btn">Read Full Biography</button>
+        </div>
+      </div>
+
+      <!-- Shakier removed as requested -->
+
+    </div>
+  </section>
+
+  <div class="bio-overlay" id="bio-overlay">
+    <div class="bio-modal">
+      <button class="modal-close" id="modal-close">×</button>
+      <div class="modal-header">
+        <div class="modal-avatar" id="modal-avatar-box">
+          <img src="" id="modal-img" alt="Member Avatar">
+        </div>
+        <div class="modal-title-block">
+          <h2 id="modal-name">Member Name</h2>
+          <p class="modal-tagline" id="modal-role">Role Title</p>
+        </div>
+      </div>
+      <div class="modal-body-scroller">
+        <div id="modal-full-text"></div>
+        <div class="modal-meta-grid" id="modal-credentials-box">
+          <div class="meta-group">
+            <h4>Academic &amp; Institutional Credentials</h4>
+            <div class="meta-pill-box" id="modal-credentials"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="trust-section pan-section">
+    <div class="quote-wrapper">
+      <div class="quote-card">
+        <div class="glass-square"></div>
+        <h2 class="quote-text">Connect with our team to explore tailored advisory and project delivery options.</h2>
+        <div class="quote-cta"><a href="/contact/" class="cta-button" style="background:#ffffff; color:#204f3b;">Get in touch with us...</a></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-brand">
+        <img src="https://bloem-co.com/wp-content/uploads/2026/05/bloem-co-presentation-logo-01.svg" alt="Bloem Co" class="footer-logo">
+        <p>A proudly South African, multidisciplinary consultancy dedicated to bringing clarity to complex programs.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/services/">Services</a></li>
+          <li><a href="/projects/">Projects</a></li>
+          <li><a href="/team/">Team</a></li>
+          <li><a href="/contact/">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom"><p>© 2026 Bloem Consulting Services. All rights reserved.</p></div>
+  </footer>
+
+  <script>
+    const teamData = {
+      fowzia: {
+        name: "Fowzia Davids",
+        role: "Managing Director",
+        bio: "<p>Fowzia is the Managing Director, founder, and director of Bloem-Co, setting the strategic direction and overseeing the delivery of all major programmes. She leads key client relationships and ensures that each project is executed with the structure, transparency, and impact that define our approach.</p><p>She brings extensive expertise in strategic project leadership and trust administration, particularly in the renewable energy sector. With a strong background in research, analysis, and community engagement, she translates insights into practical solutions and strengthens stakeholder relationships. Her academic rigour combined with her operational experience positions her as a trusted advisor and strategic leader.</p>",
+        credentials: [
+          "MSc in African Development, London School of Economics (2018)",
+          "BA Honours in International Relations, University of Cape Town (2016)",
+          "Bachelor of Social Science in Economics, International Relations, and Media and Writing, University of Cape Town (2015)"
+        ]
+      },
+      ineke: {
+        name: "Ineke Stemmet",
+        role: "Deputy Director",
+        bio: "<p>Ineke provides strategic leadership across key projects and initiatives, offering expert guidance in planning, coordination, and problem-solving. She plays a central role in overseeing project management processes, ensuring strong communication, structured execution, and proactive issue resolution.</p><p>Her portfolio includes trust administration, research support, secretariat functions, and strategic input. With extensive experience in the NGO sector, she brings strong capabilities in research, grant management, event coordination, and socio-economic assessments.</p>",
+        credentials: [
+          "Master of International Relations (Conflict Studies), Leiden University",
+          "Honours in International Relations, University of Stellenbosch (2018)",
+          "BA Philosophy, Economics and Politics (PPE), University of Stellenbosch (2015-2017)"
+        ]
+      },
+      pearl: {
+        name: "Pearl Mncube",
+        role: "Policy and Stakeholder Engagement Lead",
+        bio: "<p>Pearl leads our policy and stakeholder engagement function, managing relationships across the public and private sectors to support delivery and strategic alignment. She leverages her deep understanding of the political landscape to help clients engage effectively with government institutions and policymakers.</p><p>She provides guidance on regulatory and compliance matters, assisting organisations in navigating complex frameworks. Pearl holds an Honours degree in Political Science from the University of the Free State and is currently completing her Master’s in the same field.</p>",
+        credentials: ["Honours in Political Science (UFS)", "Master's Candidate (Political Science)"]
+      },
+      buck: {
+        name: "Buck Whaley",
+        role: "Project Manager: Social Impact and Strategy",
+        bio: "<p>Buck drives our social impact and strategy delivery portfolio, facilitating cross-sector collaboration and ensuring that development initiatives achieve practical, inclusive outcomes. He brings expertise in project management, research, stakeholder engagement, and sustainability.</p><p>He oversees the social impact components of our work, ensuring objectives are measurable, actionable, and aligned with project goals. Buck also tracks progress, measures impact, and supports policy and process resolution to maintain delivery momentum. He holds a Master’s degree in Social Impact Assessment (cum laude) from the University of Johannesburg and an Honours degree in Social Anthropology from the University of Cape Town.</p>",
+        credentials: ["M.A. Social Impact Assessment (UJ - Cum Laude)", "Honours in Social Anthropology (UCT)"]
+      },
+      laverne: {
+        name: "Laverne Louw-Williams",
+        role: "Strategic Finance Leader",
+        bio: "<p>Laverne leads our financial strategy and governance, overseeing multi-entity financial operations, regulatory compliance, and the development of robust financial systems. She manages budgeting, reporting, treasury, financial modelling, and risk oversight, ensuring accuracy, accountability, and alignment with organisational objectives.</p><p>She brings advanced technical and strategic financial capability, supported by strong academic training. Laverne holds an Honours in Taxation, a Diploma in Tax Law from UCT (with distinction), a Financial Modelling Certificate, and is completing her Master’s in Taxation. Her technical proficiency across CaseWare, Sage X3, SAP, Pastel, and advanced Excel enhances her ability to manage complex, high-governance financial environments.</p>",
+        credentials: ["Honours in Taxation", "Diploma in Tax Law (UCT - Distinction)", "Financial Modelling Certificate", "Master’s in Taxation (Candidate)"]
+      },
+      uyanda: {
+        name: "Uyanda Mabece",
+        role: "Senior Policy Analyst and Strategist",
+        bio: "<p>Uyanda leads our political analysis, research, and advocacy portfolio, driving policy development and ensuring that our strategic interventions are informed, impactful, and actionable. He brings more than 15 years of experience in global human rights and development sectors, with expertise in policy analysis, advocacy strategy, stakeholder engagement, and organisational leadership.</p><p>He guides the shaping of policy positions, supports evidence-based research, and oversees complex regional and multi-country advocacy initiatives. Uyanda also steers monitoring and evaluation systems, helps strengthen coalition-building efforts, and ensures our advocacy and policy work is aligned with organisational goals. His background spans donor engagement, multilateral partnerships, and large-scale mobilisation across diverse political environments.</p><p>Uyanda holds a Bachelor of Commerce in Accounting and Finance from the University of the Witwatersrand, along with certificates in African Political Economy and Advanced Human Rights Law from UNISA’s Thabo Mbeki African Leadership Institute and the University of Pretoria’s Centre for Human Rights. He is currently pursuing a Master of Commerce in Development Studies at the University of the Free State.</p>",
+        credentials: ["B.Com Accounting and Finance (Wits)", "African Political Economy Certificate (UNISA)", "Advanced Human Rights Law Certificate (UP)", "M.Com Development Studies (UFS Candidate)"]
+      }
+      // shakier data removed as requested
+    };
+
+    // Modal Interactivity Controller Framework
+    const overlay = document.getElementById('bio-overlay');
+    const closeBtn = document.getElementById('modal-close');
+    const cards = document.querySelectorAll('.bio-card');
+    const modalImg = document.getElementById('modal-img');
+    const modalAvatarBox = document.getElementById('modal-avatar-box');
+    const modalCredsBox = document.getElementById('modal-credentials-box');
+
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        const memberKey = card.getAttribute('data-member');
+        const data = teamData[memberKey];
+        
+        if (data) {
+          const imgEl = card.querySelector('.bio-image-wrapper img');
+          
+          if (imgEl && imgEl.src) {
+            modalAvatarBox.classList.remove('avatar-grey-state');
+            modalImg.style.display = 'block';
+            modalImg.src = imgEl.src;
+          } else {
+            modalImg.style.display = 'none';
+            modalAvatarBox.classList.add('avatar-grey-state');
+          }
+          
+          document.getElementById('modal-name').innerText = data.name;
+          document.getElementById('modal-role').innerText = data.role;
+          document.getElementById('modal-full-text').innerHTML = data.bio;
+          
+          const credContainer = document.getElementById('modal-credentials');
+          credContainer.innerHTML = '';
+          
+          if (data.credentials && data.credentials.length > 0) {
+            modalCredsBox.style.display = 'block';
+            data.credentials.forEach(cred => {
+              const pill = document.createElement('span');
+              pill.className = 'meta-pill';
+              pill.innerText = cred;
+              credContainer.appendChild(pill);
+            });
+          } else {
+            modalCredsBox.style.display = 'none';
+          }
+          
+          overlay.classList.add('active');
+          document.body.style.overflow = 'hidden';
+        }
+      });
+    });
+
+    const closeModal = () => {
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', (e) => { if(e.target === overlay) closeModal(); });
+    document.addEventListener('keydown', (e) => { if(e.key === 'Escape' && overlay.classList.contains('active')) closeModal(); });
+
+    // Mobile Responsive Hamburger Menu
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('nav-menu');
+    if(hamburger && navMenu) {
+      hamburger.addEventListener('click', () => { 
+        hamburger.classList.toggle('active'); 
+        navMenu.classList.toggle('active'); 
+      });
+    }
+
+    // Glassmorphic Panning Control Mechanics
+    const panSections = document.querySelectorAll('.pan-section');
+    panSections.forEach(section => {
+      const wrapper = section.querySelector('.quote-wrapper');
+      const glass = section.querySelector('.glass-square');
+      section.addEventListener('mousemove', (e) => {
+        const { width, height } = section.getBoundingClientRect();
+        const mouseXLocal = (e.clientX / width) - 0.5;
+        const mouseYLocal = (e.clientY / height) - 0.5;
+        wrapper.style.transform = `translateX(${mouseXLocal * 30}px) translateY(${mouseYLocal * 15}px)`;
+        if(glass) glass.style.transform = `translateY(-50%) translateX(${mouseXLocal * -60}px)`;
+      });
+      section.addEventListener('mouseleave', () => {
+        wrapper.style.transform = 'translateX(0) translateY(0)';
+        if(glass) glass.style.transform = 'translateY(-50%) translateX(0)';
+      });
+    });
+
+    // Entrance Scroll Trigger Mapping
+    document.addEventListener('DOMContentLoaded', () => {
+      const animItems = document.querySelectorAll('.values-title, .roster-title, .quote-text, .quote-cta, [data-trigger="divider"]');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => { 
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible', 'is-visible'); 
+          }
+        });
+      }, { threshold: 0.15 });
+      animItems.forEach(item => observer.observe(item));
+    });
+  </script>
+
+</body>
+</html>

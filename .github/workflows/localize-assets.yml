@@ -1,0 +1,31 @@
+# Run this once from the GitHub "Actions" tab BEFORE moving bloem-co.com to Netlify.
+# It copies every image and font from the WordPress server into the repo and
+# commits the result; Netlify then redeploys automatically.
+name: Copy images and fonts from WordPress
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  localize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download WordPress-hosted files and rewrite page links
+        run: python3 scripts/localize_assets.py
+
+      - name: Commit the copied files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A public
+          if git diff --cached --quiet; then
+            echo "Nothing new to commit."
+          else
+            git commit -m "Copy WordPress-hosted images and fonts into the site"
+            git push
+          fi

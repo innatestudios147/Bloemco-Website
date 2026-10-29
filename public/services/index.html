@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Services | Bloem Consulting Services</title>
+  <style>
+    /* --- FONTS --- */
+    @font-face {
+      font-family: 'Gully Bold';
+      src: url('https://bloem-co.com/wp-content/uploads/2026/05/Gully-Bold.ttf') format('truetype');
+      font-weight: 700;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: 'Gully Regular';
+      src: url('https://bloem-co.com/wp-content/uploads/2026/05/Gully-Regular.ttf') format('truetype');
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    /* --- GLOBAL & RESPONSIVE SCROLL GUARDS --- */
+    html, body { width: 100%; max-width: 100%; overflow-x: hidden; margin: 0; padding: 0; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Gully Regular', sans-serif; background-color: #fcfcfc; color: #3a3936; scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+
+    h1, h2, h3, h4, .service-tag, .service-tagline { font-family: 'Gully Bold', sans-serif; }
+
+    /* --- DIVIDERS --- */
+    .section-divider { width: 1px; height: 100px; background-color: #204f3b; margin: 0 auto; transform: scaleY(0); opacity: 0; transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease; transform-origin: top; }
+    .section-divider.is-visible { transform: scaleY(1); opacity: 1; }
+
+    /* --- NAVIGATION (ANTI-BREAKOUT ARCHITECTURE) --- */
+    header { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 1200px; height: 80px; background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 40px; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; z-index: 1000; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05); }
+    .logo-wrapper { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(8px); border: 1px solid rgba(32, 79, 59, 0.1); border-radius: 24px; padding: 6px 20px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+    .logo-link { display: flex; align-items: center; text-decoration: none; z-index: 1100; }
+    .logo-img { height: 32px; width: auto; }
+
+    nav ul { display: flex; list-style: none; gap: 30px; }
+    nav ul li a { text-decoration: none; color: #3a3936; font-size: 16px; font-weight: 700; position: relative; padding-bottom: 5px; transition: color 0.3s ease; font-family: 'Gully Bold', sans-serif; }
+    nav ul li a::after { content: ''; position: absolute; width: 0; height: 3px; bottom: 0; left: 50%; background-color: #ff9e29; transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1); transform: translateX(-50%); }
+    nav ul li a:hover { color: #204f3b; }
+    nav ul li a:hover::after { width: 100%; }
+
+    .hamburger { display: none; cursor: pointer; z-index: 1100; background: none; border: none; padding: 10px; }
+    .hamburger span { display: block; width: 25px; height: 3px; background: #3a3936; margin: 5px 0; transition: 0.3s ease; }
+
+    /* --- THEMED HERO HEADER (GREEN BACKDROP / WHITE TEXT) --- */
+    .banner { position: relative; width: 100%; min-height: 55vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 160px 5% 80px 5%; background-color: #204f3b; color: #ffffff; text-align: center; overflow: hidden; }
+    .banner .grid-overlay { position: absolute; inset: 0; background-image: url('https://bloem-co.com/wp-content/uploads/2026/05/topographic-01.svg'); background-size: cover; background-position: center; opacity: 0.07; pointer-events: none; z-index: 1; }
+
+    /* Centered Rotating Star Element Layout */
+    .hero-star-wrapper { position: relative; display: flex; align-items: center; justify-content: center; margin-bottom: 24px; width: 50px; height: 50px; z-index: 5; opacity: 0; animation: scaleInStar 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+    .hero-star-img { width: 50px; height: 50px; filter: brightness(0) invert(1); animation: spinInfiniteStar 20s linear infinite; }
+
+    .text-container { position: relative; z-index: 5; max-width: 800px; width: 100%; margin: 0 auto; }
+    .text-container h1 { font-size: clamp(2.4rem, 4.5vw, 3.6rem); font-weight: 400; line-height: 1.2; margin-bottom: 24px; opacity: 0; animation: fadeInUp 0.8s ease-out forwards 0.2s; }
+    .text-container h1 strong { font-weight: 700; position: relative; display: inline-block; }
+    .text-container h1 strong::after { content: ''; position: absolute; left: 0; bottom: -2px; width: 100%; height: 4px; background-color: #ff9e29; border-radius: 2px; }
+    .text-container p { color: rgba(255, 255, 255, 0.85); font-size: clamp(1.1rem, 1.4vw, 1.3rem); line-height: 1.7; opacity: 0; animation: fadeInUp 0.8s ease-out forwards 0.4s; }
+
+    /* --- DETAILED CAPABILITIES SUITE SECTIONS --- */
+    .service-detail-section { padding: clamp(60px, 7vw, 120px) 10%; background-color: #ffffff; position: relative; width: 100%; }
+    .service-detail-section:nth-of-type(even) { background-color: #f7f9f7; }
+    .service-block { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.2fr; gap: 60px; align-items: center; }
+    .service-detail-section:nth-of-type(even) .service-block { grid-template-columns: 1.2fr 1fr; }
+    .service-meta-box { position: relative; }
+    .service-tag { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: #ff9e29; margin-bottom: 12px; display: block; }
+    .service-num-large { font-size: 4.5rem; font-weight: 700; color: rgba(32, 79, 59, 0.08); line-height: 1; margin-bottom: 10px; }
+    .service-meta-box h2 { font-size: clamp(1.8rem, 2.8vw, 2.4rem); font-weight: 700; color: #204f3b; line-height: 1.3; margin-bottom: 20px; }
+    .service-tagline { font-size: 1.2rem; font-style: italic; color: #5a5954; line-height: 1.5; margin-bottom: 25px; font-weight: 500; }
+
+    /* Pill & Card Graphic Containers */
+    .service-visual-container { position: relative; display: flex; align-items: center; justify-content: center; width: 100%; min-height: 380px; }
+    .shape-pill-wrapper { width: 260px; height: 420px; border-radius: 130px; overflow: hidden; box-shadow: 0 20px 45px rgba(32, 79, 59, 0.12); border: 4px solid #ffffff; transition: transform 0.4s ease; }
+    .shape-pill-wrapper:hover { transform: scale(1.03); }
+    .shape-pill-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+
+    .shape-card-wrapper { width: 100%; max-width: 440px; height: 320px; border-radius: 40px; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.04); transition: transform 0.4s ease; }
+    .shape-card-wrapper:hover { transform: scale(1.03); }
+    .shape-card-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+
+    .service-desc-box p { font-size: 1.1rem; line-height: 1.75; color: #5a5954; margin-bottom: 30px; }
+
+    /* Subfeatures Cards Layout */
+    .subfeatures-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-bottom: 35px; width: 100%; }
+    .subfeature-card { background: #ffffff; padding: 25px; border-radius: 20px; border: 1px solid rgba(32, 79, 59, 0.08); box-shadow: 0 4px 20px rgba(0,0,0,0.01); transition: transform 0.3s ease; }
+    .service-detail-section:nth-of-type(even) .subfeature-card { background: #fcfcfc; }
+    .subfeature-card:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(32, 79, 59, 0.05); }
+    .subfeature-card h4 { font-size: 17px; font-weight: 700; color: #3a3936; margin-bottom: 10px; }
+    .subfeature-card p { font-size: 14.5px; line-height: 1.6; color: #6a6964; margin-bottom: 0; }
+
+    /* --- PANNING GLASSMORPHIC CTA SECTION --- */
+    .trust-section { padding: 100px 10%; background-color: #ffffff; overflow: hidden; position: relative; width: 100%; }
+    .quote-wrapper { width: 100%; max-width: 1200px; margin: 0 auto; transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1); }
+    .quote-card { position: relative; width: 100%; border-radius: 60px; padding: 80px 40px; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.05); text-align: center; background-color: #204f3b; color: #ffffff; }
+    .quote-card::before { content: ''; position: absolute; inset: 0; background-image: url('https://bloem-co.com/wp-content/uploads/2026/05/topographic-01.svg'); background-size: cover; background-position: center; opacity: 0.08; pointer-events: none; z-index: 1; }
+    .glass-square { position: absolute; width: 220px; height: 220px; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-radius: 50px; left: 80px; top: 50%; transform: translateY(-50%); z-index: 2; transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1); }
+    .quote-text { position: relative; z-index: 3; font-size: clamp(1.4rem, 2.8vw, 2rem); font-weight: 400; line-height: 1.4; max-width: 800px; margin-bottom: 32px; opacity: 0; transition: opacity 1s ease-in; }
+    .quote-text.visible { opacity: 1; }
+    .quote-cta { position: relative; z-index: 3; opacity: 0; transform: translateY(20px); transition: all 0.8s ease-out 0.2s; }
+    .quote-cta.visible { opacity: 1; transform: translateY(0); }
+    .quote-cta-btn { display: inline-block; background-color: #ffffff; color: #204f3b; padding: 14px 32px; border-radius: 30px; text-decoration: none; font-weight: 700; font-size: 14px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04); transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1); font-family: 'Gully Bold', sans-serif; }
+    .quote-cta-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(32, 79, 59, 0.15); background-color: #ff9e29; color: #ffffff; }
+
+    /* --- FOOTER --- */
+    footer { background-color: #3a3936; color: #ffffff; padding: 80px 10% 40px 10%; position: relative; z-index: 10; width: 100%; }
+    .footer-content { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 80px; }
+    .footer-brand .footer-logo { height: 45px; width: auto; filter: brightness(0) invert(1); margin-bottom: 25px; }
+    .footer-brand p { font-size: 15px; line-height: 1.7; color: rgba(255, 255, 255, 0.7); max-width: 350px; }
+    .footer-links h4 { font-size: 18px; font-weight: 600; margin-bottom: 25px; position: relative; }
+    .footer-links h4::after { content: ''; position: absolute; width: 30px; height: 2px; background: #ff9e29; bottom: -8px; left: 0; }
+    .footer-links ul { list-style: none; }
+    .footer-links ul li { margin-bottom: 15px; }
+    .footer-links ul li a { color: rgba(255, 255, 255, 0.7); text-decoration: none; font-size: 15px; transition: color 0.3s ease; }
+    .footer-links ul li a:hover { color: #ff9e29; }
+    .footer-bottom { max-width: 1200px; margin: 60px auto 0 auto; padding-top: 30px; border-top: 1px solid rgba(255, 255, 255, 0.1); display: flex; justify-content: space-between; align-items: center; font-size: 14px; color: rgba(255, 255, 255, 0.5); }
+
+    /* --- ANIMATIONS --- */
+    @keyframes spinInfiniteStar {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    @keyframes scaleInStar {
+      0% { opacity: 0; transform: scale(0.3); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* --- BREAKPOINTS & NON-BREAKOUT NAV MATRIX --- */
+    @media (max-width: 1100px) {
+      header { top: 15px; width: 95%; padding: 0 25px; }
+      .logo-wrapper { height: 50px; padding: 8px 16px; }
+      .logo-img { height: 26px; }
+      .hamburger { display: block; }
+
+      nav { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 1050; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.4s ease, visibility 0.4s ease; }
+      nav.active { opacity: 1; visibility: visible; pointer-events: auto; }
+      nav ul { flex-direction: column; gap: 40px; text-align: center; }
+
+      .banner { padding-top: 160px; padding-left: 20px; padding-right: 20px; min-height: auto; }
+      .service-detail-section { padding: 60px 5%; }
+      .service-block, .service-detail-section:nth-of-type(even) .service-block { grid-template-columns: 1fr !important; gap: 40px; width: 100%; max-width: 100%; }
+      .service-visual-container { min-height: auto; width: 100%; overflow: hidden; }
+      .shape-pill-wrapper { width: 220px; height: 360px; }
+      .shape-card-wrapper { max-width: 100%; height: 240px; }
+      .subfeatures-grid { grid-template-columns: 1fr; gap: 16px; }
+      .footer-content { grid-template-columns: 1fr; gap: 40px; }
+    }
+
+    @media (max-width: 600px) {
+      .quote-card { padding: 60px 20px; border-radius: 40px; }
+      .glass-square { display: none; }
+    }
+  </style>
+  <link rel="icon" type="image/svg+xml" href="https://bloem-co.com/wp-content/uploads/2026/05/bloem-co-star-01.svg">
+</head>
+<body>
+
+  <header>
+    <div class="logo-wrapper">
+      <a href="/" class="logo-link">
+        <img src="https://bloem-co.com/wp-content/uploads/2026/05/bloem-co-presentation-logo-01.svg" alt="Bloem Co Logo" class="logo-img">
+      </a>
+    </div>
+
+    <nav id="nav-menu">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/services/" style="color: #204f3b;">Services</a></li>
+        <li><a href="/projects/">Projects</a></li>
+        <li><a href="/team/">Team</a></li>
+        <li><a href="/contact/">Contact</a></li>
+      </ul>
+    </nav>
+
+    <button class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </header>
+
+  <!-- --- HERO BLOCK --- -->
+  <section class="banner">
+    <div class="grid-overlay"></div>
+    <div class="hero-star-wrapper">
+      <img src="https://bloem-co.com/wp-content/uploads/2026/05/bloem-co-star-01.svg" alt="Rotating Star Badge" class="hero-star-img">
+    </div>
+    <div class="text-container">
+      <h1>Our Professional <strong>Capabilities Suite</strong></h1>
+      <p>Bringing structure, execution metrics, and actionable momentum to South African initiatives and complex multidisciplinary portfolios.</p>
+    </div>
+  </section>
+
+  <!-- --- SECTION 1: STRATEGIC AND SECRETARIAL SUPPORT (updated image) --- -->
+  <section class="service-detail-section" id="strategic-support">
+    <div class="service-block">
+      <div class="service-visual-container">
+        <div class="shape-pill-wrapper">
+          <img src="https://bloem-co.com/wp-content/uploads/2026/06/bloem-co-06-19-10-08-13.jpg" alt="Strategic Framework Execution">
+        </div>
+      </div>
+      <div class="service-desc-box">
+        <div class="service-meta-box">
+          <span class="service-tag">Capability Suite</span>
+          <div class="service-num-large">01</div>
+          <h2>Strategic and Secretarial Support</h2>
+          <p class="service-tagline">Helping you see the big picture, staying on track and getting it done.</p>
+        </div>
+        <p>We help define goals, set priorities, and map out a clear game plan. By identifying risks, opportunities, and the potential impact of decisions, we ensure that every choice is informed and strategic. We align and coordinate teams, stakeholders, and workstreams, keeping everyone on the same page.</p>
+
+        <div class="subfeatures-grid">
+          <div class="subfeature-card">
+            <h4>Adaptive Redirection</h4>
+            <p>Our monitoring processes flag issues early, recommend course corrections, and track progress against objectives.</p>
+          </div>
+          <div class="subfeature-card">
+            <h4>Accountability Infrastructure</h4>
+            <p>We drive accountability through KPIs and structured reporting to ensure commitments are met, and we quickly identify and escalate blockers to maintain momentum.</p>
+          </div>
+        </div>
+        <!-- client associations removed -->
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider" data-trigger="divider"></div>
+
+  <!-- --- SECTION 2: STRATEGY FACILITATION --- -->
+  <section class="service-detail-section" id="strategy-facilitation">
+    <div class="service-block">
+      <div class="service-desc-box">
+        <div class="service-meta-box">
+          <span class="service-tag">Capability Suite</span>
+          <div class="service-num-large">02</div>
+          <h2>Strategy Facilitation</h2>
+          <p class="service-tagline">Navigating high-pressure transformations with clear executive alignment.</p>
+        </div>
+        <p>Our team organizes structured alignment pathways for executive teams, board components, and regional development cells. We craft the secure spatial environment required to unblock communication, solve governance bottlenecks, and solidify long-term corporate roadmaps.</p>
+
+        <div class="subfeatures-grid">
+          <div class="subfeature-card">
+            <h4>Stakeholder Alignment</h4>
+            <p>Bridging alignment targets smoothly between private entities, state cells, and community leaders.</p>
+          </div>
+          <div class="subfeature-card">
+            <h4>Impact Roadmapping</h4>
+            <p>Translating conceptual institutional vision definitions into clear, highly trackable programmatic task lists.</p>
+          </div>
+        </div>
+        <!-- no CTA / client badges -->
+      </div>
+      <div class="service-visual-container">
+        <div class="shape-card-wrapper">
+          <img src="https://bloem-co.com/wp-content/uploads/2026/05/1757926500130.webp" alt="Executive Strategy Session">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider" data-trigger="divider"></div>
+
+  <!-- --- SECTION 3: PROJECT MANAGEMENT --- -->
+  <section class="service-detail-section" id="project-management">
+    <div class="service-block">
+      <div class="service-visual-container">
+        <div class="shape-pill-wrapper">
+          <img src="https://bloem-co.com/wp-content/uploads/2026/05/1755268701367.webp" alt="Project Delivery Coordination">
+        </div>
+      </div>
+      <div class="service-desc-box">
+        <div class="service-meta-box">
+          <span class="service-tag">Capability Suite</span>
+          <div class="service-num-large">03</div>
+          <h2>Project Management</h2>
+          <p class="service-tagline">Projects Delivered On Time. On Budget. On Point.</p>
+        </div>
+        <p>Whether your projects are short-term or multi-year, we support you from the outset with structured planning, then manage the day-to-day coordination needed to keep everything on track. We guide your project from start to finish to ensure that it is delivered on time, within budget, and at the quality you expect.</p>
+
+        <div class="subfeatures-grid">
+          <div class="subfeature-card">
+            <h4>Disciplined Formulation</h4>
+            <p>We bring disciplined planning to each engagement—helping you define goals, timelines, budgets, tasks, and responsibilities.</p>
+          </div>
+          <div class="subfeature-card">
+            <h4>Milestone Transparency</h4>
+            <p>Our tools and processes create visibility of milestones, risks, and responsibilities, ensuring commitments are met even in fast-moving environments.</p>
+          </div>
+        </div>
+        <!-- associated portfolios removed -->
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider" data-trigger="divider"></div>
+
+  <!-- --- SECTION 4: TRUST ADMINISTRATION --- -->
+  <section class="service-detail-section" id="trust-administration">
+    <div class="service-block">
+      <div class="service-desc-box">
+        <div class="service-meta-box">
+          <span class="service-tag">Capability Suite</span>
+          <div class="service-num-large">04</div>
+          <h2>Trust Administration &amp; Governance Advisory</h2>
+          <p class="service-tagline">Partnering with us means turning community funds into real, positive outcomes.</p>
+        </div>
+        <p>Our approach to trust management is one of administering and overseeing your trust’s operations, funds, and obligations to ensure the assets are managed responsibly and in line with the trust’s mandate.</p>
+
+        <div class="subfeatures-grid">
+          <div class="subfeature-card">
+            <h4>Financial Stewardship</h4>
+            <p>We focus directly on meticulous financial compliance, good governance structures, and strict auditing paths.</p>
+          </div>
+          <div class="subfeature-card">
+            <h4>Beneficiary Support</h4>
+            <p>Maintaining transparent, accountable use of resources to deliver meaningful, measurable local impacts.</p>
+          </div>
+        </div>
+        <!-- key clients removed -->
+      </div>
+      <div class="service-visual-container">
+        <div class="shape-card-wrapper">
+          <img src="https://bloem-co.com/wp-content/uploads/2026/05/1750929921393.webp" alt="Governance Blueprint Architecture">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider" data-trigger="divider"></div>
+
+  <!-- --- SECTION 5: RESEARCH, POLICY AND RISK ANALYSIS --- -->
+  <section class="service-detail-section" id="research-policy">
+    <div class="service-block">
+      <div class="service-visual-container">
+        <div class="shape-pill-wrapper">
+          <img src="https://bloem-co.com/wp-content/uploads/2026/05/teeam1.webp" alt="Policy Analytical Infrastructure">
+        </div>
+      </div>
+      <div class="service-desc-box">
+        <div class="service-meta-box">
+          <span class="service-tag">Capability Suite</span>
+          <div class="service-num-large">05</div>
+          <h2>Research, Policy and Risk Analysis</h2>
+          <p class="service-tagline">Strategic insight for a shifting landscape.</p>
+        </div>
+
+        <div class="subfeatures-grid">
+          <div class="subfeature-card">
+            <h4>Policy Analysis</h4>
+            <p>We analyse policy frameworks and legislative environments to assess effectiveness, identify regulatory gaps, and propose context-sensitive alternatives.</p>
+          </div>
+          <div class="subfeature-card">
+            <h4>Rigorous Research</h4>
+            <p>We conduct rigorous, high-quality evidence-based research to inform national and regional policy, strategy and decision-making across Sub-Saharan Africa.</p>
+          </div>
+        </div>
+        <!-- resources & links removed -->
+      </div>
+    </div>
+  </section>
+
+  <!-- --- INTERACTIVE GLASS HOVER CONVERSION PANEL --- -->
+  <section class="trust-section pan-section">
+    <div class="quote-wrapper">
+      <div class="quote-card">
+        <div class="glass-square"></div>
+        <h2 class="quote-text">Explore strategic partnership opportunities with our professional team.</h2>
+        <div class="quote-cta"><a href="/contact/" class="quote-cta-btn">Contact us to collaborate...</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- --- FOOTER --- -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-brand">
+        <img src="https://bloem-co.com/wp-content/uploads/2026/05/bloem-co-presentation-logo-01.svg" alt="Bloem Co" class="footer-logo">
+        <p>A proudly South African, multidisciplinary consultancy dedicated to bringing clarity to complex programs.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/services/">Services</a></li>
+          <li><a href="/projects/">Projects</a></li>
+          <li><a href="/team/">Team</a></li>
+          <li><a href="/contact/">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom"><p>© 2026 Bloem Consulting Services. All rights reserved.</p></div>
+  </footer>
+
+  <script>
+    // Hamburger Interactions (Toggles active state on self-contained overlay)
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('nav-menu');
+    if(hamburger && navMenu) {
+      hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        navMenu.classList.toggle('active');
+      });
+      navMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          hamburger.classList.remove('active');
+          navMenu.classList.remove('active');
+        });
+      });
+    }
+
+    // Glassmorphism Matrix Panning Control Mechanics
+    const panSections = document.querySelectorAll('.pan-section');
+    panSections.forEach(section => {
+      const wrapper = section.querySelector('.quote-wrapper');
+      const glass = section.querySelector('.glass-square');
+      section.addEventListener('mousemove', (e) => {
+        const { width, height } = section.getBoundingClientRect();
+        const mouseXLocal = (e.clientX / width) - 0.5;
+        const mouseYLocal = (e.clientY / height) - 0.5;
+        wrapper.style.transform = `translateX(${mouseXLocal * 30}px) translateY(${mouseYLocal * 15}px)`;
+        if(glass) glass.style.transform = `translateY(-50%) translateX(${mouseXLocal * -60}px)`;
+      });
+      section.addEventListener('mouseleave', () => {
+        wrapper.style.transform = 'translateX(0) translateY(0)';
+        if(glass) glass.style.transform = 'translateY(-50%) translateX(0)';
+      });
+    });
+
+    // Trigger Entry Scroll Animations
+    document.addEventListener('DOMContentLoaded', () => {
+      const animItems = document.querySelectorAll('.quote-text, .quote-cta, [data-trigger="divider"]');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible', 'is-visible');
+          }
+        });
+      }, { threshold: 0.15 });
+      animItems.forEach(item => observer.observe(item));
+    });
+  </script>
+
+</body>
+</html>
