@@ -1,0 +1,173 @@
+/* Styles for the Insights pages (/insights/ and each article).
+   Also loaded into the staff editor's preview pane, so writers see the real look. */
+
+@font-face {
+  font-family: 'Gully';
+  src: url('https://bloem-co.com/wp-content/uploads/2026/05/Gully-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Gully';
+  src: url('https://bloem-co.com/wp-content/uploads/2026/05/Gully-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; overflow-x: hidden; background-color: #fcfcfc; color: #3a3936; font-family: 'Gully', sans-serif; scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+
+/* --- HEADER / NAV (same as the other pages) --- */
+header { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 1200px; height: 80px; background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 40px; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; z-index: 1000; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05); }
+.logo-wrapper { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(8px); border: 1px solid rgba(32, 79, 59, 0.1); border-radius: 24px; padding: 6px 20px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+.logo-link { display: flex; align-items: center; text-decoration: none; z-index: 1100; }
+.logo-img { height: 32px; width: auto; }
+nav ul { display: flex; list-style: none; gap: 30px; }
+nav ul li a { text-decoration: none; color: #3a3936; font-size: 16px; font-weight: 700; position: relative; padding-bottom: 5px; transition: color 0.3s ease; }
+nav ul li a::after { content: ''; position: absolute; width: 0; height: 3px; bottom: 0; left: 50%; background-color: #ff9e29; transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1); transform: translateX(-50%); }
+nav ul li a:hover, nav ul li a.is-current { color: #204f3b; }
+nav ul li a:hover::after { width: 100%; }
+.hamburger { display: none; cursor: pointer; z-index: 1100; background: none; border: none; padding: 10px; }
+.hamburger span { display: block; width: 25px; height: 3px; background: #3a3936; margin: 5px 0; transition: all 0.3s ease; transform-origin: center; }
+.hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); background: #204f3b; }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); background: #204f3b; }
+
+/* --- GREEN BANNER --- */
+.banner { position: relative; width: 100%; min-height: 50vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 170px 6% 90px; background-color: #204f3b; color: #ffffff; text-align: center; overflow: hidden; }
+.banner::before { content: ''; position: absolute; inset: 0; background-image: url('https://bloem-co.com/wp-content/uploads/2026/05/topographic-01.svg'); background-size: cover; background-position: center; opacity: 0.07; pointer-events: none; }
+.banner > * { position: relative; z-index: 2; }
+.banner-star { width: 50px; height: 50px; margin-bottom: 24px; filter: brightness(0) invert(1); animation: starIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both, spin 20s linear infinite 0.8s; }
+.banner h1 { font-size: clamp(2.3rem, 4.6vw, 3.6rem); font-weight: 400; line-height: 1.18; max-width: 900px; margin: 0 auto 22px; animation: fadeInUp 0.8s ease-out both 0.15s; }
+.banner h1 strong { font-weight: 700; position: relative; display: inline-block; }
+.banner h1 strong::after { content: ''; position: absolute; left: 0; bottom: -2px; width: 100%; height: 4px; background-color: #ff9e29; border-radius: 2px; }
+.banner p { color: rgba(255, 255, 255, 0.85); font-size: clamp(1.05rem, 1.4vw, 1.25rem); line-height: 1.7; max-width: 720px; margin: 0 auto; animation: fadeInUp 0.8s ease-out both 0.3s; }
+
+/* Article banner variant */
+.article-banner h1 { font-weight: 700; font-size: clamp(2rem, 4.2vw, 3.2rem); }
+.article-tag { display: inline-block; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: #ff9e29; margin-bottom: 18px; animation: fadeInUp 0.8s ease-out both; }
+.article-meta { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 20px; color: rgba(255, 255, 255, 0.8); font-size: 15px; animation: fadeInUp 0.8s ease-out both 0.3s; }
+.article-meta span + span::before { content: '·'; margin-right: 20px; color: rgba(255, 255, 255, 0.45); }
+
+/* --- LISTING GRID --- */
+.insights-wrap { max-width: 1300px; margin: 0 auto; padding: clamp(70px, 8vw, 120px) 6%; }
+.insights-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+.insight-card { display: flex; flex-direction: column; background: #ffffff; border-radius: 30px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.04); text-decoration: none; color: inherit; transition: transform 0.4s ease, box-shadow 0.4s ease; }
+.insight-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(32, 79, 59, 0.08); }
+.insight-img { height: 220px; overflow: hidden; background-color: #e7efea; }
+.insight-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s ease; }
+.insight-card:hover .insight-img img { transform: scale(1.05); }
+.insight-body { display: flex; flex-direction: column; flex: 1; padding: 28px 30px 30px; }
+.insight-meta { font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: #8c8b88; font-weight: 700; margin-bottom: 12px; }
+.insight-title { font-size: 1.3rem; font-weight: 700; line-height: 1.35; color: #3a3936; margin-bottom: 12px; transition: color 0.3s; }
+.insight-card:hover .insight-title { color: #204f3b; }
+.insight-summary { font-size: 15px; line-height: 1.65; color: #6a6964; margin-bottom: 22px; }
+.insight-link { margin-top: auto; display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; color: #204f3b; }
+.insight-link svg { width: 16px; height: 16px; transition: transform 0.3s; }
+.insight-card:hover .insight-link svg { transform: translateX(4px); }
+
+/* --- ARTICLE --- */
+.article-wrap { max-width: 860px; margin: 0 auto; padding: 50px 6% 40px; }
+.back-link { display: inline-flex; align-items: center; gap: 8px; color: #204f3b; font-weight: 700; font-size: 15px; text-decoration: none; margin-bottom: 30px; }
+.back-link:hover { color: #ff9e29; }
+.article-cover { margin: 0 0 50px; border-radius: 32px; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.06); background: #e7efea; }
+.article-cover img { display: block; width: 100%; height: auto; max-height: 520px; object-fit: cover; }
+
+.article-body { font-size: 1.15rem; line-height: 1.85; color: #4a4944; max-width: 720px; margin: 0 auto; overflow-wrap: break-word; }
+.article-body > * + * { margin-top: 1.25em; }
+.article-body h2 { font-size: clamp(1.5rem, 2.4vw, 1.9rem); font-weight: 700; color: #204f3b; line-height: 1.3; margin-top: 2em; }
+.article-body h3 { font-size: 1.3rem; font-weight: 700; color: #3a3936; line-height: 1.35; margin-top: 1.8em; }
+.article-body h4, .article-body h5, .article-body h6 { font-size: 1.1rem; font-weight: 700; color: #3a3936; margin-top: 1.6em; }
+.article-body a { color: #204f3b; font-weight: 700; text-decoration: underline; text-decoration-color: #ff9e29; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+.article-body a:hover { color: #ff9e29; }
+.article-body a:not([href]) { color: inherit; font-weight: inherit; text-decoration: none; }
+.article-body ul, .article-body ol { padding-left: 1.4em; }
+.article-body li + li { margin-top: 0.5em; }
+.article-body li::marker { color: #204f3b; font-weight: 700; }
+.article-body blockquote { border-left: 4px solid #ff9e29; background: #f7f9f7; padding: 22px 28px; border-radius: 0 18px 18px 0; font-size: 1.2rem; font-style: italic; color: #204f3b; }
+.article-body blockquote p + p { margin-top: 0.8em; }
+.article-body img { display: block; max-width: 100%; height: auto; border-radius: 20px; margin-left: auto; margin-right: auto; }
+.article-body hr { border: none; height: 1px; background: rgba(0,0,0,0.1); margin: 2.5em 0; }
+.article-body code { background: #f1f4f2; padding: 2px 6px; border-radius: 6px; font-size: 0.9em; }
+.article-body pre { background: #f1f4f2; padding: 18px 22px; border-radius: 14px; overflow-x: auto; }
+.article-body pre code { background: none; padding: 0; }
+.article-body table { width: 100%; border-collapse: collapse; font-size: 1rem; display: block; overflow-x: auto; }
+.article-body th, .article-body td { border-bottom: 1px solid rgba(0,0,0,0.08); padding: 10px 12px; text-align: left; }
+.article-body th { color: #204f3b; font-weight: 700; }
+.article-body iframe { display: block; width: 100%; aspect-ratio: 16 / 9; height: auto; border: 0; border-radius: 20px; }
+
+.article-footer { max-width: 720px; margin: 50px auto 0; padding-top: 28px; border-top: 1px solid rgba(0,0,0,0.08); display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; font-size: 15px; color: #6a6964; }
+.article-footer strong { color: #3a3936; }
+
+.more-insights { background: #e7efea; padding: clamp(70px, 8vw, 110px) 6%; }
+.more-insights .insights-grid { max-width: 1300px; margin: 0 auto; }
+.section-title { max-width: 1300px; margin: 0 auto 50px; font-size: clamp(1.6rem, 2.5vw, 2.2rem); font-weight: 700; position: relative; display: block; }
+.section-title span { position: relative; display: inline-block; }
+.section-title span::after { content: ''; position: absolute; width: 40px; height: 3px; background: #204f3b; bottom: -8px; left: 0; border-radius: 2px; }
+
+/* --- CTA PANEL --- */
+.trust-section { padding: 100px 10%; background-color: #ffffff; overflow: hidden; position: relative; }
+.quote-card { position: relative; max-width: 1200px; margin: 0 auto; border-radius: 60px; padding: 80px 40px; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.05); text-align: center; background-color: #204f3b; color: #ffffff; }
+.quote-card::before { content: ''; position: absolute; inset: 0; background-image: url('https://bloem-co.com/wp-content/uploads/2026/05/topographic-01.svg'); background-size: cover; background-position: center; opacity: 0.08; pointer-events: none; z-index: 1; }
+.glass-square { position: absolute; width: 220px; height: 220px; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-radius: 50px; left: 80px; top: 50%; transform: translateY(-50%); z-index: 2; }
+.quote-text { position: relative; z-index: 3; font-size: clamp(1.4rem, 2.8vw, 2rem); font-weight: 400; line-height: 1.4; max-width: 800px; margin-bottom: 32px; opacity: 0; transition: opacity 1s ease-in; }
+.quote-text.visible { opacity: 1; }
+.quote-cta { position: relative; z-index: 3; opacity: 0; transform: translateY(20px); transition: all 0.8s ease-out 0.2s; }
+.quote-cta.visible { opacity: 1; transform: translateY(0); }
+.quote-cta-btn { display: inline-block; background-color: #ffffff; color: #204f3b; padding: 14px 32px; border-radius: 30px; text-decoration: none; font-weight: 700; font-size: 14px; transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1); }
+.quote-cta-btn:hover { transform: translateY(-3px); background-color: #ff9e29; color: #ffffff; }
+
+/* --- FOOTER --- */
+footer { background-color: #3a3936; color: #ffffff; padding: 80px 10% 40px; position: relative; z-index: 10; }
+.footer-content { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 80px; }
+.footer-brand .footer-logo { height: 45px; width: auto; filter: brightness(0) invert(1); margin-bottom: 25px; }
+.footer-brand p { font-size: 15px; line-height: 1.7; color: rgba(255, 255, 255, 0.7); max-width: 350px; }
+.footer-links h4 { font-size: 18px; font-weight: 700; margin-bottom: 25px; position: relative; }
+.footer-links h4::after { content: ''; position: absolute; width: 30px; height: 2px; background: #ff9e29; bottom: -8px; left: 0; }
+.footer-links ul { list-style: none; }
+.footer-links ul li { margin-bottom: 15px; }
+.footer-links ul li a { color: rgba(255, 255, 255, 0.7); text-decoration: none; font-size: 15px; transition: color 0.3s ease; }
+.footer-links ul li a:hover { color: #ff9e29; }
+.footer-bottom { max-width: 1200px; margin: 60px auto 0; padding-top: 30px; border-top: 1px solid rgba(255, 255, 255, 0.1); display: flex; justify-content: space-between; align-items: center; font-size: 14px; color: rgba(255, 255, 255, 0.5); }
+
+/* --- KEYFRAMES --- */
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes starIn { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: scale(1); } }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .quote-text, .quote-cta { opacity: 1; transform: none; }
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 1100px) {
+  header { top: 15px; height: 75px; width: 92%; padding: 0 25px; }
+  .logo-wrapper { padding: 6px 14px; border-radius: 18px; }
+  .logo-img { height: 26px; }
+  .hamburger { display: block; }
+  nav { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 1050; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.4s ease, visibility 0.4s ease; }
+  nav.active { opacity: 1; visibility: visible; pointer-events: auto; }
+  nav ul { flex-direction: column; gap: 35px; text-align: center; }
+  nav ul li a { font-size: 22px; }
+  .banner { padding-top: 150px; min-height: auto; }
+  .insights-grid { grid-template-columns: repeat(2, 1fr); gap: 30px; }
+  .footer-content { grid-template-columns: 1fr; gap: 40px; }
+}
+@media (max-width: 700px) {
+  .insights-grid { grid-template-columns: 1fr; }
+  .article-body { font-size: 1.08rem; }
+  .article-meta { gap: 6px 16px; }
+  .article-meta span + span::before { display: none; }
+  .article-cover { border-radius: 22px; margin-bottom: 36px; }
+  .quote-card { padding: 60px 22px; border-radius: 40px; }
+  .glass-square { display: none; }
+  .trust-section { padding: 70px 5%; }
+  .footer-bottom { flex-direction: column; gap: 15px; text-align: center; }
+}
+
+/* --- EDITOR PREVIEW PANE --- */
+.cms-preview .banner { padding-top: 70px; min-height: 0; }
+.cms-preview .article-wrap { padding-top: 40px; }
+.cms-preview-note { background: #fff6e8; color: #8a5a12; font-size: 13px; padding: 10px 16px; text-align: center; }

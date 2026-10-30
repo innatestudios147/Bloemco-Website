@@ -1,0 +1,110 @@
+# Settings for the staff article editor at /admin (Decap CMS).
+# Reference: https://decapcms.org/docs/configuration-options/
+
+backend:
+  name: git-gateway        # staff log in with Netlify Identity; saves go to GitHub
+  branch: main
+  commit_messages:
+    create: 'New article: {{slug}}'
+    update: 'Edit article: {{slug}}'
+    delete: 'Delete article: {{slug}}'
+    uploadMedia: 'Upload image: {{path}}'
+    deleteMedia: 'Delete image: {{path}}'
+
+# Drafts are saved separately and only reach the live site when someone
+# moves them to "Ready" and clicks Publish.
+publish_mode: editorial_workflow
+
+site_url: https://bloem-co.com
+display_url: https://bloem-co.com
+logo_url: https://bloem-co.com/wp-content/uploads/2026/05/bloem-co-presentation-logo-01.svg
+locale: en
+
+media_folder: public/uploads/insights
+public_folder: /uploads/insights
+
+slug:
+  encoding: ascii
+  clean_accents: true
+  sanitize_replacement: '-'
+
+collections:
+  - name: insights
+    label: Insights
+    label_singular: Article
+    description: >-
+      Articles appear on the Insights page and, newest first, in "Latest Insights"
+      on the home page. New articles start as drafts; nothing goes live until it
+      is moved to Ready and published from the Workflow tab.
+    folder: content/insights
+    create: true
+    delete: true
+    extension: md
+    format: frontmatter
+    slug: '{{slug}}'
+    preview_path: 'insights/{{slug}}/'
+    summary: '{{title}} · {{author}}'
+    sortable_fields: ['date', 'title', 'author', 'category']
+    fields:
+      - label: Title
+        name: title
+        widget: string
+        hint: 'Shown as the headline and in Google results. Aim for under 70 characters.'
+        pattern: ['^.{5,120}$', 'Use between 5 and 120 characters']
+
+      - label: Publish date
+        name: date
+        widget: datetime
+        format: 'YYYY-MM-DD'
+        date_format: 'D MMMM YYYY'
+        time_format: false
+        picker_utc: true
+        default: '{{now}}'
+        hint: 'Articles are listed newest first by this date.'
+
+      - label: Author
+        name: author
+        widget: string
+        hint: 'Your name as it should appear on the article, e.g. Fowzia Davids.'
+
+      - label: Category
+        name: category
+        widget: select
+        options:
+          - Trust Governance
+          - Implementation
+          - Strategic Advisory
+          - Policy & Research
+          - Project Management
+          - Company News
+
+      - label: Summary
+        name: summary
+        widget: text
+        hint: 'One or two sentences for the article cards and Google results (20–220 characters).'
+        pattern: ['^[\s\S]{20,220}$', 'Write between 20 and 220 characters']
+
+      - label: Cover image
+        name: image
+        widget: image
+        choose_url: false
+        media_library:
+          config:
+            max_file_size: 2000000   # bytes (2 MB); keeps pages fast
+        hint: 'A landscape photo, at least 1200px wide. JPG or WebP, under 2 MB.'
+
+      - label: Cover image description
+        name: image_alt
+        widget: string
+        hint: 'Describe the photo for people using screen readers, e.g. "Trustees at a community meeting in De Aar".'
+
+      - label: Article
+        name: body
+        widget: markdown
+        modes: ['rich_text', 'raw']
+        buttons: ['bold', 'italic', 'link', 'heading-two', 'heading-three', 'quote', 'bulleted-list', 'numbered-list']
+        editor_components: ['image']
+        media_library:
+          config:
+            max_file_size: 2000000
+        hint: 'Use "Heading 2" for section titles. The article title is added automatically.'

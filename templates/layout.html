@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{title}}</title>
+  <meta name="description" content="{{description}}">
+  <link rel="canonical" href="{{canonical}}">
+  <meta property="og:site_name" content="Bloem Consulting Services">
+  <meta property="og:type" content="{{og_type}}">
+  <meta property="og:title" content="{{og_title}}">
+  <meta property="og:description" content="{{description}}">
+  <meta property="og:url" content="{{canonical}}">
+  {{og_image}}
+  <link rel="alternate" type="application/rss+xml" title="Bloem Consulting Services – Insights" href="/insights/feed.xml">
+  <link rel="icon" type="image/svg+xml" href="https://bloem-co.com/wp-content/uploads/2026/05/bloem-co-star-01.svg">
+  <link rel="stylesheet" href="/assets/insights.css">
+</head>
+<body>
+
+  <header>
+    <div class="logo-wrapper">
+      <a href="/" class="logo-link">
+        <img src="https://bloem-co.com/wp-content/uploads/2026/05/bloem-co-presentation-logo-01.svg" alt="Bloem Co Logo" class="logo-img">
+      </a>
+    </div>
+    <nav id="nav-menu">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/services/">Services</a></li>
+        <li><a href="/projects/">Projects</a></li>
+        <li><a href="/insights/" class="is-current">Insights</a></li>
+        <li><a href="/team/">Team</a></li>
+        <li><a href="/contact/">Contact</a></li>
+      </ul>
+    </nav>
+    <button class="hamburger" id="hamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
+  </header>
+
+  {{content}}
+
+  <section class="trust-section">
+    <div class="quote-card">
+      <div class="glass-square"></div>
+      <h2 class="quote-text">Bringing structure, clarity and momentum to complex programmes.</h2>
+      <div class="quote-cta"><a href="/contact/" class="quote-cta-btn">Get in Touch</a></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-brand">
+        <img src="https://bloem-co.com/wp-content/uploads/2026/05/bloem-co-presentation-logo-01.svg" alt="Bloem Co" class="footer-logo">
+        <p>A proudly South African, multidisciplinary consultancy dedicated to bringing clarity to complex programs.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/services/">Services</a></li>
+          <li><a href="/projects/">Projects</a></li>
+          <li><a href="/insights/">Insights</a></li>
+          <li><a href="/team/">Team</a></li>
+          <li><a href="/contact/">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Contact Info</h4>
+        <ul>
+          <li><a href="mailto:info@bloem-co.com">info@bloem-co.com</a></li>
+          <li><a href="/insights/feed.xml">RSS feed</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom"><p>© {{year}} Bloem Consulting Services. All rights reserved.</p></div>
+  </footer>
+
+  <script>
+    (function () {
+      var hamburger = document.getElementById('hamburger');
+      var navMenu = document.getElementById('nav-menu');
+      if (hamburger && navMenu) {
+        hamburger.addEventListener('click', function () {
+          hamburger.classList.toggle('active');
+          navMenu.classList.toggle('active');
+        });
+      }
+      var items = document.querySelectorAll('.quote-text, .quote-cta');
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+        }, { threshold: 0.15 });
+        items.forEach(function (item) { observer.observe(item); });
+      } else {
+        items.forEach(function (item) { item.classList.add('visible'); });
+      }
+    })();
+  </script>
+</body>
+</html>

@@ -1,6 +1,11 @@
-# Plain static site: no build step, Netlify serves the public/ folder as-is.
+# Netlify builds the site from public/ plus the staff-written articles in
+# content/insights/, and publishes the result from dist/.
 [build]
-  publish = "public"
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
 
 # Old WordPress addresses -> new pages, so existing links and Google results keep working.
 # (Netlify matches these with or without a trailing slash.)
@@ -13,3 +18,19 @@
   from = "/clients"
   to = "/projects/"
   status = 301
+
+# Security headers for every page.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
+
+# Keep the staff editor out of search engines and always load its latest settings.
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    Cache-Control = "no-cache"

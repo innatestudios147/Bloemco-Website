@@ -2,6 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <script>
+    // Staff invite and password-reset emails link here; pass them on to the article editor.
+    if (/(invite_token|recovery_token|confirmation_token|email_change_token|access_token)=/.test(location.hash)) {
+      location.replace('/admin/' + location.hash);
+    }
+  </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Bloem Consulting Services | Professional Consultancy South Africa</title>
     <link href="https://fonts.cdnfonts.com/css/gully" rel="stylesheet">
@@ -313,6 +319,7 @@
         <img src="https://bloem-co.com/wp-content/uploads/2026/05/circle2-01.svg" alt="Branding Decor" class="blog-decor-svg">
         
         <div class="blog-grid">
+            <!-- insights:start (replaced with the latest published articles when the site is built) -->
             <a href="/contact/" class="blog-card">
                 <div class="blog-img-box">
                     <img src="https://bloem-co.com/wp-content/uploads/2026/05/hallway-1.webp" alt="Governance Compliance">
@@ -344,11 +351,13 @@
                 <div class="blog-meta">Strategic Advisory</div>
                 <h3 class="blog-title">How Diverse Consulting Teams Navigate High Pressure</h3>
                 <div class="blog-arrow">
-                    Read Article 
+                    Read Article
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                 </div>
             </a>
+            <!-- insights:end -->
         </div>
+        <!-- insights:view-all -->
     </section>
 
     <div class="section-divider" data-trigger="divider"></div>

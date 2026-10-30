@@ -25,6 +25,8 @@ import urllib.request
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 PUBLIC = ROOT / "public"
+# Pages, stylesheets, editor settings and the Insights page template.
+SCANNED = ("*.html", "*.css", "*.yml", "*.js")
 PATTERN = re.compile(r"https?://(?:www\.)?bloem-co\.com(/wp-content/uploads/[^\"'()\s<>`]+)")
 USER_AGENT = "Mozilla/5.0 (compatible; bloem-co-site asset copy)"
 
@@ -64,7 +66,10 @@ def download(url: str, dest: pathlib.Path) -> None:
 
 def main() -> int:
     dry_run = "--dry-run" in sys.argv
-    pages = sorted(PUBLIC.rglob("*.html"))
+    pages = sorted(
+        {p for pattern in SCANNED for p in PUBLIC.rglob(pattern)}
+        | set((ROOT / "templates").glob("*.html"))
+    )
     found = {}
     for page in pages:
         for match in PATTERN.finditer(page.read_text(encoding="utf-8")):
