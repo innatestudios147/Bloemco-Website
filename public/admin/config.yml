@@ -17,7 +17,7 @@ publish_mode: editorial_workflow
 
 site_url: https://bloem-co.com
 display_url: https://bloem-co.com
-logo_url: https://bloem-co.com/wp-content/uploads/2026/05/bloem-co-presentation-logo-01.svg
+logo_url: /wp-content/uploads/2026/05/bloem-co-presentation-logo-01.svg
 locale: en
 
 media_folder: public/uploads/insights

@@ -3,14 +3,14 @@
 
 @font-face {
   font-family: 'Gully';
-  src: url('https://bloem-co.com/wp-content/uploads/2026/05/Gully-Regular.ttf') format('truetype');
+  src: url('/wp-content/uploads/2026/05/Gully-Regular.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'Gully';
-  src: url('https://bloem-co.com/wp-content/uploads/2026/05/Gully-Bold.ttf') format('truetype');
+  src: url('/wp-content/uploads/2026/05/Gully-Bold.ttf') format('truetype');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -37,7 +37,7 @@ nav ul li a:hover::after { width: 100%; }
 
 /* --- GREEN BANNER --- */
 .banner { position: relative; width: 100%; min-height: 50vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 170px 6% 90px; background-color: #204f3b; color: #ffffff; text-align: center; overflow: hidden; }
-.banner::before { content: ''; position: absolute; inset: 0; background-image: url('https://bloem-co.com/wp-content/uploads/2026/05/topographic-01.svg'); background-size: cover; background-position: center; opacity: 0.07; pointer-events: none; }
+.banner::before { content: ''; position: absolute; inset: 0; background-image: url('/wp-content/uploads/2026/05/topographic-01.svg'); background-size: cover; background-position: center; opacity: 0.07; pointer-events: none; }
 .banner > * { position: relative; z-index: 2; }
 .banner-star { width: 50px; height: 50px; margin-bottom: 24px; filter: brightness(0) invert(1); animation: starIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both, spin 20s linear infinite 0.8s; }
 .banner h1 { font-size: clamp(2.3rem, 4.6vw, 3.6rem); font-weight: 400; line-height: 1.18; max-width: 900px; margin: 0 auto 22px; animation: fadeInUp 0.8s ease-out both 0.15s; }
@@ -110,7 +110,7 @@ nav ul li a:hover::after { width: 100%; }
 /* --- CTA PANEL --- */
 .trust-section { padding: 100px 10%; background-color: #ffffff; overflow: hidden; position: relative; }
 .quote-card { position: relative; max-width: 1200px; margin: 0 auto; border-radius: 60px; padding: 80px 40px; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.05); text-align: center; background-color: #204f3b; color: #ffffff; }
-.quote-card::before { content: ''; position: absolute; inset: 0; background-image: url('https://bloem-co.com/wp-content/uploads/2026/05/topographic-01.svg'); background-size: cover; background-position: center; opacity: 0.08; pointer-events: none; z-index: 1; }
+.quote-card::before { content: ''; position: absolute; inset: 0; background-image: url('/wp-content/uploads/2026/05/topographic-01.svg'); background-size: cover; background-position: center; opacity: 0.08; pointer-events: none; z-index: 1; }
 .glass-square { position: absolute; width: 220px; height: 220px; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-radius: 50px; left: 80px; top: 50%; transform: translateY(-50%); z-index: 2; }
 .quote-text { position: relative; z-index: 3; font-size: clamp(1.4rem, 2.8vw, 2rem); font-weight: 400; line-height: 1.4; max-width: 800px; margin-bottom: 32px; opacity: 0; transition: opacity 1s ease-in; }
 .quote-text.visible { opacity: 1; }

@@ -74,7 +74,7 @@
         @keyframes scrollClients { 0% { transform: translateX(0); } 100% { transform: translateX(calc(-50% - 50px)); } }
 
         /* --- ABOUT US --- */
-        .about-section { padding: clamp(160px, 16vw, 240px) 10%; background-image: linear-gradient(rgba(32, 79, 59, 0.90), rgba(32, 79, 59, 0.90)), url('https://bloem-co.com/wp-content/uploads/2026/05/about-us.webp'); background-size: cover; background-position: center; background-attachment: scroll; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: white; position: relative; z-index: 2; }
+        .about-section { padding: clamp(160px, 16vw, 240px) 10%; background-image: linear-gradient(rgba(32, 79, 59, 0.90), rgba(32, 79, 59, 0.90)), url('/wp-content/uploads/2026/05/about-us.webp'); background-size: cover; background-position: center; background-attachment: scroll; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: white; position: relative; z-index: 2; }
         #about-bloom-svg { width: 90px; height: 90px; margin-bottom: 30px; opacity: 0; transform: scale(0.6) rotate(-45deg); transition: opacity 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), transform 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         #about-bloom-svg.bloom-animated { opacity: 1; transform: scale(1) rotate(0deg); }
         .about-content { max-width: 800px; }
@@ -130,10 +130,10 @@
         .quote-wrapper { width: 100%; max-width: 1200px; margin: 0 auto; transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1); }
         .quote-card { position: relative; width: 100%; border-radius: 80px; padding: 100px 60px; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.05); text-align: center; }
         .quote-card.dark { background-color: #204f3b; color: #ffffff; }
-        .quote-card.dark::before, .service-card::before { content: ''; position: absolute; inset: 0; background-image: url('https://bloem-co.com/wp-content/uploads/2026/05/topographic-01.svg'); background-size: cover; background-position: center; opacity: 0.09; pointer-events: none; z-index: 1; }
+        .quote-card.dark::before, .service-card::before { content: ''; position: absolute; inset: 0; background-image: url('/wp-content/uploads/2026/05/topographic-01.svg'); background-size: cover; background-position: center; opacity: 0.09; pointer-events: none; z-index: 1; }
         .quote-card.dark .glass-square { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.1); }
         .quote-card.light { background-color: #f4f4f2; color: #204f3b; }
-        .quote-card.light::before { content: ''; position: absolute; inset: 0; background-image: url('https://bloem-co.com/wp-content/uploads/2026/05/topographic-01.svg'); background-size: cover; background-position: center; opacity: 0.04; pointer-events: none; z-index: 1; }
+        .quote-card.light::before { content: ''; position: absolute; inset: 0; background-image: url('/wp-content/uploads/2026/05/topographic-01.svg'); background-size: cover; background-position: center; opacity: 0.04; pointer-events: none; z-index: 1; }
         .quote-card.light .glass-square { background: rgba(32, 79, 59, 0.08); border: 1px solid rgba(32, 79, 59, 0.1); }
         .glass-square { position: absolute; width: 250px; height: 250px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-radius: 60px; left: 80px; top: 50%; transform: translateY(-50%); z-index: 2; transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1); }
         .quote-text { position: relative; z-index: 3; font-size: clamp(1.4rem, 3.2vw, 2.2rem); font-weight: 400; line-height: 1.4; max-width: 800px; margin-bottom: 24px; opacity: 0; transition: opacity 1s ease-in, transform 0.6s cubic-bezier(0.25, 1, 0.5, 1); }
@@ -239,14 +239,14 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes glowPulse { 0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; } 50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.4; } }
     </style>
-  <link rel="icon" type="image/svg+xml" href="https://bloem-co.com/wp-content/uploads/2026/05/bloem-co-star-01.svg">
+  <link rel="icon" type="image/svg+xml" href="/wp-content/uploads/2026/05/bloem-co-star-01.svg">
 </head>
 <body>
 
   <header>
         <div class="logo-wrapper">
             <a href="/" class="logo-link">
-                <img src="https://bloem-co.com/wp-content/uploads/2026/05/bloem-co-presentation-logo-01.svg" alt="Bloem Co Logo" class="logo-img">
+                <img src="/wp-content/uploads/2026/05/bloem-co-presentation-logo-01.svg" alt="Bloem Co Logo" class="logo-img">
             </a>
         </div>
         
@@ -287,12 +287,12 @@
             </div>
             
             <div class="parallax-layer" id="layer-circle-svg">
-                <img src="https://bloem-co.com/wp-content/uploads/2026/05/circle1-01.svg" alt="Circle Icon" class="hero-circle-svg" id="hero-circle-svg">
+                <img src="/wp-content/uploads/2026/05/circle1-01.svg" alt="Circle Icon" class="hero-circle-svg" id="hero-circle-svg">
             </div>
             
             <div class="parallax-layer" id="layer-main-card">
                 <div class="main-card" id="hero-main">
-                    <img src="https://bloem-co.com/wp-content/uploads/2026/05/bloemco-hero-images.webp" alt="Consulting Success">
+                    <img src="/wp-content/uploads/2026/05/bloemco-hero-images.webp" alt="Consulting Success">
                 </div>
             </div>
         </div>
@@ -301,7 +301,7 @@
     <div class="section-divider" data-trigger="divider"></div>
 
     <section class="about-section" id="about">
-        <img src="https://bloem-co.com/wp-content/uploads/2026/05/about-us-bloom-01.svg" alt="Bloom Crest" id="about-bloom-svg">
+        <img src="/wp-content/uploads/2026/05/about-us-bloom-01.svg" alt="Bloom Crest" id="about-bloom-svg">
         
         <div class="about-content">
             <h2>About us</h2>
@@ -316,13 +316,13 @@
             <h2>Latest Insights</h2>
         </div>
         
-        <img src="https://bloem-co.com/wp-content/uploads/2026/05/circle2-01.svg" alt="Branding Decor" class="blog-decor-svg">
+        <img src="/wp-content/uploads/2026/05/circle2-01.svg" alt="Branding Decor" class="blog-decor-svg">
         
         <div class="blog-grid">
             <!-- insights:start (replaced with the latest published articles when the site is built) -->
             <a href="/contact/" class="blog-card">
                 <div class="blog-img-box">
-                    <img src="https://bloem-co.com/wp-content/uploads/2026/05/hallway-1.webp" alt="Governance Compliance">
+                    <img src="/wp-content/uploads/2026/05/hallway-1.webp" alt="Governance Compliance">
                 </div>
                 <div class="blog-meta">Trust Governance</div>
                 <h3 class="blog-title">Structuring Compliance Paths for Modern Trustees</h3>
@@ -334,7 +334,7 @@
             
             <a href="/contact/" class="blog-card">
                 <div class="blog-img-box">
-                    <img src="https://bloem-co.com/wp-content/uploads/2026/05/hardhats.webp" alt="Social Impact Evaluation">
+                    <img src="/wp-content/uploads/2026/05/hardhats.webp" alt="Social Impact Evaluation">
                 </div>
                 <div class="blog-meta">Implementation</div>
                 <h3 class="blog-title">Measuring Local Impact Within South African Trusts</h3>
@@ -346,7 +346,7 @@
             
             <a href="/contact/" class="blog-card">
                 <div class="blog-img-box">
-                    <img src="https://bloem-co.com/wp-content/uploads/2026/05/teeam1.webp" alt="Portfolio Leadership Strategy">
+                    <img src="/wp-content/uploads/2026/05/teeam1.webp" alt="Portfolio Leadership Strategy">
                 </div>
                 <div class="blog-meta">Strategic Advisory</div>
                 <h3 class="blog-title">How Diverse Consulting Teams Navigate High Pressure</h3>
@@ -369,23 +369,23 @@
         
         <div class="team-grid">
             <div class="team-card">
-                <img src="https://bloem-co.com/wp-content/uploads/2026/07/fowzia2.webp" alt="Fowzia Davids">
+                <img src="/wp-content/uploads/2026/07/fowzia2.webp" alt="Fowzia Davids">
                 <div class="team-info"><h3>Fowzia Davids</h3><p>Managing Director</p></div>
             </div>
             <div class="team-card">
-                <img src="https://bloem-co.com/wp-content/uploads/2026/05/team2-07.webp" alt="Ineke Stemmet">
+                <img src="/wp-content/uploads/2026/05/team2-07.webp" alt="Ineke Stemmet">
                 <div class="team-info"><h3>Ineke Stemmet</h3><p>Deputy Director</p></div>
             </div>
             <div class="team-card">
-                <img src="https://bloem-co.com/wp-content/uploads/2026/05/team2-11.webp" alt="Buck Whaley">
+                <img src="/wp-content/uploads/2026/05/team2-11.webp" alt="Buck Whaley">
                 <div class="team-info"><h3>Buck Whaley</h3><p>Project Manager: Social Impact and Strategy</p></div>
             </div>
             <div class="team-card">
-                <img src="https://bloem-co.com/wp-content/uploads/2026/07/uyanda.webp" alt="Uyanda Mabece">
+                <img src="/wp-content/uploads/2026/07/uyanda.webp" alt="Uyanda Mabece">
                 <div class="team-info"><h3>Uyanda Mabece</h3><p>Senior Policy Analyst and Strategist</p></div>
             </div>
             <div class="team-card">
-                <img src="https://bloem-co.com/wp-content/uploads/2026/05/team2-08.webp" alt="Pearl Mncube">
+                <img src="/wp-content/uploads/2026/05/team2-08.webp" alt="Pearl Mncube">
                 <div class="team-info"><h3>Pearl Mncube</h3><p>Stakeholder Management and Public Policy</p></div>
             </div>
         </div>
@@ -438,7 +438,7 @@
             <h2>Our Services</h2>
         </div>
         
-        <img src="https://bloem-co.com/wp-content/uploads/2026/05/circle2-01.svg" alt="Branding Decor" class="services-decor-svg">
+        <img src="/wp-content/uploads/2026/05/circle2-01.svg" alt="Branding Decor" class="services-decor-svg">
         
         <div class="services-grid">
             <div class="service-card" data-trigger="service">
@@ -480,9 +480,9 @@
         <h3 class="clients-header">Our Projects</h3>
         <div class="clients-container">
             <div class="clients-track" id="clients-track">
-                <img src="https://bloem-co.com/wp-content/uploads/2026/06/Maishalogo.white_-1024x146-1.png" alt="Maisha Logo" class="client-logo maisha-reduced">
-                <img src="https://bloem-co.com/wp-content/uploads/2026/05/bloem-co-presentation-logo-02.webp" alt="Enterprise South Africa" class="client-logo">
-                <img src="https://bloem-co.com/wp-content/uploads/2026/06/Speyside.png" alt="Speyside Logo" class="client-logo">
+                <img src="/wp-content/uploads/2026/06/Maishalogo.white_-1024x146-1.png" alt="Maisha Logo" class="client-logo maisha-reduced">
+                <img src="/wp-content/uploads/2026/05/bloem-co-presentation-logo-02.webp" alt="Enterprise South Africa" class="client-logo">
+                <img src="/wp-content/uploads/2026/06/Speyside.png" alt="Speyside Logo" class="client-logo">
             </div>
         </div>
     </section>
@@ -523,7 +523,7 @@
 
     <footer>
         <div class="footer-content">
-            <div class="footer-brand"><img src="https://bloem-co.com/wp-content/uploads/2026/05/bloem-co-presentation-logo-01.svg" alt="Bloem Co" class="footer-logo"><p>A South Africa based, multidisciplinary consultancy dedicated to bringing clarity to complex programs.</p></div>
+            <div class="footer-brand"><img src="/wp-content/uploads/2026/05/bloem-co-presentation-logo-01.svg" alt="Bloem Co" class="footer-logo"><p>A South Africa based, multidisciplinary consultancy dedicated to bringing clarity to complex programs.</p></div>
             <div class="footer-links">
                 <h4>Explore</h4>
                 <ul>
@@ -705,7 +705,7 @@
                     if(container) {
                         container.innerHTML = `
                             <div style="text-align:center; padding: 40px 10px;">
-                                <img src="https://bloem-co.com/wp-content/uploads/2026/05/about-us-bloom-01.svg" style="width: 80px; height: 80px; margin-bottom: 24px; animation: glowPulse 2s infinite ease-in-out;" />
+                                <img src="/wp-content/uploads/2026/05/about-us-bloom-01.svg" style="width: 80px; height: 80px; margin-bottom: 24px; animation: glowPulse 2s infinite ease-in-out;" />
                                 <h2 style="color: #204f3b; margin-bottom: 15px;">Thank You!</h2>
                                 <p style="color: #5a5954;">Your consultation details have been submitted successfully. A Bloem representative will connect with you shortly.</p>
                             </div>
