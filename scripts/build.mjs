@@ -192,6 +192,11 @@ function renderLayout(layout, { title, description, canonical, ogType, ogTitle, 
   return layout.replace(/\{\{(\w+)\}\}/g, (match, key) => (key in values ? values[key] : match));
 }
 
+const emptyState = `
+    <div class="insights-empty">
+      <p>New articles are on their way — check back soon.</p>
+    </div>`;
+
 const listingPage = (layout, articles) => renderLayout(layout, {
   title: 'Insights | Bloem Consulting Services',
   description: BLOG_DESCRIPTION,
@@ -207,8 +212,8 @@ const listingPage = (layout, articles) => renderLayout(layout, {
   </section>
 
   <main class="insights-wrap">
-    <div class="insights-grid">${articles.map(listingCard).join('')}
-    </div>
+    ${articles.length ? `<div class="insights-grid">${articles.map(listingCard).join('')}
+    </div>` : emptyState}
   </main>`,
 });
 
@@ -297,7 +302,9 @@ function updateHome(html, articles) {
     console.warn('! Home page markers missing; "Latest Insights" left unchanged.');
     return html;
   }
-  const cards = articles.slice(0, HOME_CARD_COUNT).map(homeCard).join('\n');
+  const cards = articles.length
+    ? articles.slice(0, HOME_CARD_COUNT).map(homeCard).join('\n')
+    : '<p class="blog-empty" style="grid-column:1/-1;text-align:center;">New articles are on their way — check back soon.</p>';
   html = `${html.slice(0, start)}${cards.trimStart()}\n            ${html.slice(end)}`;
   return html.replace(
     '<!-- insights:view-all -->',
@@ -319,10 +326,6 @@ async function main() {
   await cp(SRC, OUT, { recursive: true });
 
   const articles = await loadArticles();
-  if (articles.length === 0) {
-    console.log('No published articles yet: site built unchanged.');
-    return;
-  }
 
   // Link the blog from every page's menu and footer, and fill the home cards.
   for (const file of await htmlFiles(OUT)) {
@@ -344,7 +347,9 @@ async function main() {
     await mkdir(dir, { recursive: true });
     await writeFile(path.join(dir, 'index.html'), articlePage(layout, article, articles));
   }
-  console.log(`Built ${articles.length} article${articles.length === 1 ? '' : 's'}: ${articles.map((a) => a.slug).join(', ')}`);
+  console.log(articles.length
+    ? `Built ${articles.length} article${articles.length === 1 ? '' : 's'}: ${articles.map((a) => a.slug).join(', ')}`
+    : 'Insights page is live with no published articles yet.');
 }
 
 await main();
