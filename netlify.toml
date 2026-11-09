@@ -1,5 +1,6 @@
-# Netlify builds the site from public/ plus the staff-written articles in
-# content/insights/, and publishes the result from dist/.
+# Netlify builds the static marketing pages (public/) and the blog/staff
+# portal app (app/) together and publishes the combined result from dist/.
+# See package.json's "build" script and scripts/merge-app.mjs.
 [build]
   command = "npm run build"
   publish = "dist"
@@ -19,6 +20,40 @@
   to = "/projects/"
   status = 301
 
+# The old Insights blog's address now points at the new one.
+[[redirects]]
+  from = "/insights/*"
+  to = "/blog/"
+  status = 301
+
+# The blog/staff portal is a client-rendered app (app/): every address under
+# these prefixes is served the same app shell, and React Router decides what
+# to show based on the URL. Must come before any catch-all redirect.
+[[redirects]]
+  from = "/blog"
+  to = "/app-shell.html"
+  status = 200
+
+[[redirects]]
+  from = "/blog/*"
+  to = "/app-shell.html"
+  status = 200
+
+[[redirects]]
+  from = "/login"
+  to = "/app-shell.html"
+  status = 200
+
+[[redirects]]
+  from = "/staff"
+  to = "/app-shell.html"
+  status = 200
+
+[[redirects]]
+  from = "/staff/*"
+  to = "/app-shell.html"
+  status = 200
+
 # Security headers for every page.
 [[headers]]
   for = "/*"
@@ -28,9 +63,15 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
 
-# Keep the staff editor out of search engines and always load its latest settings.
+# Keep the staff portal out of search engines and always load its latest build.
 [[headers]]
-  for = "/admin/*"
+  for = "/staff/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/login"
   [headers.values]
     X-Robots-Tag = "noindex, nofollow"
     Cache-Control = "no-cache"

@@ -1,105 +1,159 @@
 # Bloem Consulting Services — website
 
-Static HTML version of bloem-co.com (previously on WordPress), deployed with Netlify,
-plus an **Insights** blog that staff write in a browser-based editor at `/admin`.
+Static marketing pages (`public/`) plus a **Blog** with a private staff
+portal, backed by [Supabase](https://supabase.com) (database, auth, file
+storage), deployed together on Netlify.
 
 ## How it fits together
 
 | Path | What it is |
 | --- | --- |
-| `public/` | The site's pages, exactly as visitors see them (edit HTML here) |
-| `content/insights/*.md` | Blog articles. Written by staff through `/admin`; you never need to edit these by hand |
-| `public/admin/` | The staff article editor ([Decap CMS](https://decapcms.org), pinned to v3.16.3) and its settings (`config.yml`) |
-| `public/uploads/insights/` | Images staff upload with their articles |
-| `public/assets/insights.css`, `templates/layout.html` | Look of the Insights listing and article pages |
-| `scripts/build.mjs` | Netlify build: copies `public/` to `dist/` and turns articles into pages |
-| `netlify.toml` | Build settings, redirects from old WordPress addresses, security headers |
+| `public/` | The marketing pages — home, services, projects, team, contact, 404 (edit HTML here) |
+| `app/` | The Blog + staff portal: a React app served at `/blog`, `/login` and `/staff` |
+| `supabase/migrations/` | The database schema, roles and access rules (SQL) |
+| `supabase/functions/` | Two small server-side functions: `posts-write` (sanitizes every article save) and `staff-users` (admin-only staff management) |
+| `scripts/build.mjs` | Builds the marketing pages into `dist/` |
+| `scripts/merge-app.mjs` | Copies the built app into `dist/` alongside them |
+| `netlify.toml` | Build command, routing, security headers |
 
-On every push to `main`, Netlify runs `npm run build` and publishes `dist/`:
+On every push to `main`, Netlify runs `npm run build`, which:
 
-- Each article becomes `/insights/<article-name>/`. All of them are listed on `/insights/`, with an RSS feed at `/insights/feed.xml`.
-- The three newest articles replace the placeholder cards in the home page's **Latest Insights**, followed by a "View all insights" button.
-- An **Insights** link is added to the menu and footer of every page.
+1. Builds the marketing pages into `dist/` (unchanged from before).
+2. Builds the React app in `app/`.
+3. Merges the two together — `/blog`, `/blog/<slug>`, `/login`, `/staff` and
+   `/staff/*` are all served by the app; everything else is a plain page.
 
-**Until the first article is published, the built site is identical to `public/`, so nothing changes for visitors.**
+## Setting up Supabase (one time)
 
-| URL | File |
-| --- | --- |
-| `/` | `public/index.html` |
-| `/services/` | `public/services/index.html` |
-| `/projects/` | `public/projects/index.html` |
-| `/team/` | `public/team/index.html` |
-| `/contact/` | `public/contact/index.html` |
-| `/insights/…` | generated from `content/insights/` |
-| `/admin/` | staff article editor |
-| any missing page | `public/404.html` |
+The blog doesn't work until this is done — until then, `/blog` shows "not
+connected yet" instead of erroring.
 
-Old WordPress addresses redirect permanently: `/home/` → `/` and `/clients/` → `/projects/`.
+1. **Create a project** at [supabase.com](https://supabase.com) (or reuse
+   one you already have set aside for Bloem-Co — not one shared with another
+   client).
+2. **Run the migration.** In the Supabase SQL editor, paste and run
+   `supabase/migrations/0001_init.sql`. This creates the tables, the default
+   categories, the storage bucket for images/documents, and all the access
+   rules described below.
+3. **Set the bootstrap admin.** That migration grants admin automatically to
+   `fowzia@salo.org.za` the first time that email signs in — it's the one
+   consistently used for this project so far. To use a different email (or
+   add more), run in the SQL editor:
+   ```sql
+   insert into public.bootstrap_admins (email) values ('someone@bloem-co.com');
+   ```
+4. **Deploy the two edge functions** (`posts-write`, `staff-users`) — via the
+   Supabase CLI from this repo:
+   ```sh
+   supabase link --project-ref <your-project-ref>
+   supabase functions deploy posts-write
+   supabase functions deploy staff-users
+   supabase secrets set SITE_URL=https://bloem-co.com
+   ```
+5. **Point email links at the site.** In Supabase → Authentication → URL
+   Configuration, set the Site URL to `https://bloem-co.com` and add
+   `https://bloem-co.com/login` and `https://bloemco.netlify.app/login` as
+   redirect URLs. This is what makes invite and password-reset emails land
+   on the login page instead of Supabase's own domain.
+6. **Set the site's environment variables.** In Netlify → Project
+   configuration → Environment variables, add:
+   - `SUPABASE_URL` — Project Settings → API → Project URL
+   - `SUPABASE_ANON_KEY` — Project Settings → API → anon/public key
 
-## Setting up Netlify (one time)
+   (Never put the **service role** key here — it only belongs in the two
+   edge functions' own environment, which Supabase manages for you.)
+7. **Redeploy** the site (Netlify → Deploys → Trigger deploy) so the build
+   picks up the new environment variables.
 
-1. **Link the repo.** In Netlify, open the `bloemco` project. Go to Project configuration → Build & deploy → **Link repository** → GitHub → `Bloemco-Website`.
-   The build settings come from `netlify.toml`, so leave the fields as they are. The blog editor only works once the project is linked to this repo.
-2. **Make the live site public.** Go to Project configuration → Access & security → Visitor access. Make sure team-login protection does **not** apply to the production site. Otherwise neither visitors nor staff can reach it. Keeping it on for deploy previews is fine.
-3. **Forms.** Go to Project configuration → Forms and click **Enable form detection** (already on for `bloemco`). Then add an email notification for the `contact` form to info@bloem-co.com: Notifications → Emails and webhooks → Form submission notifications.
-4. **Staff logins (Netlify Identity):**
-   1. Go to Project configuration → Identity and click **Enable Identity**.
-   2. Under **Registration preferences**, choose **Invite only**. ⚠️ This is the most important security setting. If it stays on Open, anyone could create an account.
-   3. Optional: under **External providers**, add **Google**. Staff can then log in with their work Google account, including Google's 2-step verification. They still need an invite.
-   4. Under **Services → Git Gateway**, click **Enable Git Gateway**. In **Roles**, enter `editor`. Now only staff you have given the `editor` role can save anything, even if an account is ever created by mistake.
-5. **Invite staff.** Go to the Identity tab → **Invite users** and enter their email addresses. When someone has accepted, open their user → **Edit settings** → Roles: `editor`.
+That's it — no separate sign-up step for staff beyond inviting them (next
+section).
 
-Invite and password-reset emails link to the home page, which forwards them to `/admin/` automatically.
+## Staff accounts and roles
+
+Three roles: **pending** (just signed up, can't do anything yet), **editor**
+(writes and manages their own articles), **admin** (manages every article,
+plus staff access).
+
+**To invite someone:** sign in at `/login` as an admin, go to **Manage
+staff** in the staff portal, and invite by email with a starting role. They
+get an email to set a password; once they do, they can sign in and start
+writing (if invited as editor) immediately — no separate approval step for
+an invited account.
+
+**If someone signs themselves up** (via "Create an account" on the login
+page, without being invited first), they start as **pending** and can't
+write anything until an admin changes their role to editor in **Manage
+staff**.
+
+**Removing someone:** Manage staff → Remove. Their access stops immediately.
+An admin can't demote or remove their own account (on purpose, so the
+portal can never be accidentally locked).
 
 ## Writing and publishing (for staff)
 
-1. Go to **bloem-co.com/admin** (or `bloemco.netlify.app/admin` until the domain moves) and log in.
-2. Under **Insights**, click **+ Article** and fill in each field. Every field has a short hint, and the editor won't save until the required ones are filled. The right-hand pane shows how the article will look on the site.
-3. Click **Save**. The article is now a **Draft** and is *not* on the website.
-4. When it's ready for a colleague to check, set **Status → In review**. Everyone can see drafts and articles in review on the **Workflow** tab.
-5. After review, set **Status → Ready**, then **Publish → Publish now**. The site updates within about a minute.
-
-To edit a published article, open it, change it and publish again. To take an article down, open it and choose **Delete published entry**.
+1. Go to **bloem-co.com/staff** and sign in.
+2. Click **New article**. Fill in the title, write the body in the editor,
+   optionally add a summary (one is generated automatically from the body
+   if you leave it blank), pick or create a category, add a cover image, a
+   photo gallery, and any documents to attach (press releases, reports,
+   newsletters).
+3. **Save as draft** to keep working on it without it going live, or
+   **Publish** to put it on the site immediately.
+4. To edit a published article, open it from your article list, make
+   changes, and save again — its original publish date doesn't change.
+5. Only you (or an admin) can edit or delete your own articles.
 
 ## Security
 
-- **Invite-only accounts** (Netlify Identity), plus a second lock: only users with the `editor` role can save anything.
-- **Drafts and review before anything goes live.** Saving never publishes. Publishing is a separate, deliberate step.
-- **Full history.** Every save and publish is a commit in this GitHub repo. Any article or image can be restored to an earlier version, and nothing is ever lost.
-- **Articles can't run code on the site.** The build strips scripts, styles, forms, event handlers and `javascript:` links from article content, and only allows YouTube and Vimeo video embeds. A misused or compromised staff account still can't inject code into the public website.
-- **The editor only offers articles and their images.** Staff have no way to change the site's pages from `/admin`. Behind the scenes, Git Gateway does give logged-in editors write access to this repo, which is why accounts are invite-only and role-locked. Only invite people you trust.
-- **Pinned editor version.** `/admin` loads one exact version of Decap CMS. Update it on purpose by changing the version in `public/admin/index.html`.
-- **Security headers** on every page (`netlify.toml`); `/admin` is hidden from search engines.
-- **Uploads capped at 2 MB** per image.
-- **Removing someone:** Identity tab → their user → **Delete user**. Their access stops immediately.
+- **Every article's HTML is sanitized on the server on every save** — the
+  `posts-write` function strips scripts, styles, event handlers and
+  anything outside a small safe tag set before it's stored, regardless of
+  what the editor produced. The database itself also has no direct write
+  path for articles (see below), so this can't be bypassed by calling the
+  API directly.
+- **Role-based access**, enforced in the database (Postgres row-level
+  security), not just in the app: a pending account can read nothing extra,
+  an editor can only touch their own articles, and only an admin can manage
+  staff or every article.
+- **Drafts stay private.** A draft is visible only to its author and admins
+  — to anyone else, it behaves exactly like a page that doesn't exist (a
+  plain "not found", never an error that reveals it's there).
+- **Uploads are capped at 20MB** per file and restricted to image types
+  (covers, gallery) or common document types (attachments); files go
+  straight from the browser to Supabase's storage, not through a function
+  with a smaller limit.
+- **Full audit trail.** Supabase keeps every row's history in its own
+  database backups; who authored and last updated each article is always
+  on the record itself.
 
-Note: Netlify's Git Gateway (the piece that saves staff edits to GitHub) is deprecated. It keeps working and gets security fixes, but no new features. Netlify Identity itself remains supported. If Git Gateway is ever retired, switch `backend` in `public/admin/config.yml` to `github` (staff would then log in with GitHub accounts). The articles don't need to change.
+## Why uploads bypass a server function
 
-## Contact forms
+A plain serverless function (the kind Netlify and Vercel run by default)
+typically caps request bodies around 6MB — easy to hit with a phone photo or
+a multi-page PDF, and the failure shows up as a vague, unhelpful error.
+Rather than build a custom upload endpoint and run into that wall, uploads
+go directly from the browser to Supabase Storage using the visitor's own
+(role-checked) session — no proxy, no size surprise, and the same
+database-enforced rule (only signed-in staff can upload) applies regardless.
 
-The home page and contact page both submit to one Netlify form named **`contact`**. Its fields are name, email, service and message, plus a `source` field saying which page it came from. Submissions appear under the Netlify project's **Forms** tab, and a hidden honeypot field filters spam. The forms only work on the deployed Netlify site, not when the files are opened locally.
-
-## Images and fonts — do this before moving the domain
-
-The pages still load their images and the Gully font from `https://bloem-co.com/wp-content/uploads/...` on the WordPress server. Once bloem-co.com points at Netlify, WordPress is no longer reachable there and those files would break.
-
-To copy them into this repo (one time, while WordPress is still live), use either option:
-
-- **GitHub:** Actions tab → **Copy images and fonts from WordPress** → Run workflow. It downloads every file to `public/wp-content/uploads/` (same paths as WordPress) and points the pages, styles, editor settings and template at the local copies. It then commits, and Netlify redeploys on its own.
-- **Locally:** run `python3 scripts/localize_assets.py`, then commit and push.
-
-The run summary lists any file it couldn't download. Those files stay pointed at WordPress.
-
-## Working on the site locally
+## Local development
 
 ```sh
+npm run build:site   # marketing pages only, into dist/
+cd app
 npm install
-npm run build                          # builds dist/
-python3 -m http.server -d dist 8000    # http://localhost:8000
+npm run dev           # the blog/staff app at localhost:5173, against your Supabase project
 ```
 
-To try the article editor locally without logging in:
+Create `app/.env.local` with your own project's values to develop against:
+```
+SUPABASE_URL=https://xxxx.supabase.co
+SUPABASE_ANON_KEY=xxxx
+```
+(these are read by `vite.config.ts`, which maps them into the app.)
 
-1. Add `local_backend: true` to `public/admin/config.yml` (don't commit this).
-2. In one terminal, run `npx decap-server`.
-3. In another, run `python3 -m http.server -d public 8080` and open http://localhost:8080/admin/.
+## Contact form
+
+The home page and contact page both submit to one Netlify form named
+**`contact`**, unrelated to the blog — unchanged from before. Submissions
+appear under the Netlify project's **Forms** tab.

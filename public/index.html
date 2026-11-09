@@ -3,9 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <script>
-    // Staff invite and password-reset emails link here; pass them on to the article editor.
-    if (/(invite_token|recovery_token|confirmation_token|email_change_token|access_token)=/.test(location.hash)) {
-      location.replace('/admin/' + location.hash);
+    // Staff invite and password-reset emails link here by default; pass them on to
+    // the login page, which handles the "set your password" step. Supabase's email
+    // templates should be set to redirect straight to /login, so this is a fallback.
+    if (/(access_token|refresh_token|type=recovery|type=invite|type=signup)/.test(location.hash + location.search)) {
+      location.replace('/login' + location.hash + location.search);
     }
   </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -313,52 +315,18 @@
 
     <section class="blog-section" id="blog">
         <div class="blog-header">
-            <h2>Latest Insights</h2>
+            <h2>Latest Articles</h2>
         </div>
-        
+
         <img src="/wp-content/uploads/2026/05/circle2-01.svg" alt="Branding Decor" class="blog-decor-svg">
-        
-        <div class="blog-grid">
-            <!-- insights:start (replaced with the latest published articles when the site is built) -->
-            <a href="/contact/" class="blog-card">
-                <div class="blog-img-box">
-                    <img src="/wp-content/uploads/2026/05/hallway-1.webp" alt="Governance Compliance">
-                </div>
-                <div class="blog-meta">Trust Governance</div>
-                <h3 class="blog-title">Structuring Compliance Paths for Modern Trustees</h3>
-                <div class="blog-arrow">
-                    Read Article 
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                </div>
-            </a>
-            
-            <a href="/contact/" class="blog-card">
-                <div class="blog-img-box">
-                    <img src="/wp-content/uploads/2026/05/hardhats.webp" alt="Social Impact Evaluation">
-                </div>
-                <div class="blog-meta">Implementation</div>
-                <h3 class="blog-title">Measuring Local Impact Within South African Trusts</h3>
-                <div class="blog-arrow">
-                    Read Article 
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                </div>
-            </a>
-            
-            <a href="/contact/" class="blog-card">
-                <div class="blog-img-box">
-                    <img src="/wp-content/uploads/2026/05/teeam1.webp" alt="Portfolio Leadership Strategy">
-                </div>
-                <div class="blog-meta">Strategic Advisory</div>
-                <h3 class="blog-title">How Diverse Consulting Teams Navigate High Pressure</h3>
-                <div class="blog-arrow">
-                    Read Article
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                </div>
-            </a>
-            <!-- insights:end -->
+
+        <div class="blog-grid" id="latest-articles-grid" data-loading-text="Loading the latest articles…" data-empty-text="New articles are on their way — check back soon.">
+            <p class="blog-loading">Loading the latest articles…</p>
         </div>
-        <!-- insights:view-all -->
+        <div class="services-cta-wrap" style="margin-top:50px;"><a href="/blog/" class="services-cta-link">View all articles</a></div>
     </section>
+    <script src="/assets/supabase-config.js"></script>
+    <script src="/assets/latest-articles.js" defer></script>
 
     <div class="section-divider" data-trigger="divider"></div>
 
