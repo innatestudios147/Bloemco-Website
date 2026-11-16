@@ -22,6 +22,7 @@ export function Footer() {
           <h4>Contact Info</h4>
           <ul>
             <li><a href="mailto:info@bloem-co.com">info@bloem-co.com</a></li>
+            <li><a href="/privacy-policy/">Privacy Policy</a></li>
           </ul>
         </div>
       </div>
