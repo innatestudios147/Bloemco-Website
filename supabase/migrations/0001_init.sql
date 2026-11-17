@@ -36,7 +36,7 @@ create table if not exists public.bootstrap_admins (
 );
 
 insert into public.bootstrap_admins (email) values
-  ('fowziadavids@bloem-co.com')
+  ('inekestemmet@bloem-co.com')
 on conflict do nothing;
 
 -- ---------------------------------------------------------------- blog_categories

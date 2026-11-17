@@ -36,7 +36,7 @@ connected yet" instead of erroring.
    categories, the storage bucket for images/documents, and all the access
    rules described below.
 3. **Set the bootstrap admin.** That migration grants admin automatically to
-   `fowziadavids@bloem-co.com` the first time that email signs in. To use a
+   `inekestemmet@bloem-co.com` the first time that email signs in. To use a
    different email (or add more), run in the SQL editor:
    ```sql
    insert into public.bootstrap_admins (email) values ('someone@bloem-co.com');
