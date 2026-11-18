@@ -89,6 +89,11 @@ Deno.serve(async (req) => {
   const excerptInput = typeof payload.excerpt === 'string' ? payload.excerpt.trim() : '';
   const excerpt = excerptInput || buildExcerpt(sanitizedBody);
 
+  // The byline doesn't have to match a staff account — an editor can credit
+  // a guest writer or use a display name of their choosing. Falls back to
+  // the signed-in staff member's own name/email when left blank.
+  const customAuthorName = typeof payload.author_name === 'string' ? payload.author_name.trim().slice(0, 120) : '';
+
   const svc = serviceClient();
   const id = typeof payload.id === 'string' ? payload.id : undefined;
 
@@ -130,7 +135,8 @@ Deno.serve(async (req) => {
   };
 
   if (id) {
-    const { data, error } = await svc.from('blog_posts').update(row).eq('id', id).select().single();
+    const updateRow = customAuthorName ? { ...row, author_name: customAuthorName } : row;
+    const { data, error } = await svc.from('blog_posts').update(updateRow).eq('id', id).select().single();
     if (error) return json({ error: error.message }, 400);
     return json({ post: data }, 200);
   }
@@ -146,7 +152,7 @@ Deno.serve(async (req) => {
     .insert({
       ...row,
       author_id: caller.userId,
-      author_name: profile?.display_name || profile?.email || caller.email,
+      author_name: customAuthorName || profile?.display_name || profile?.email || caller.email,
     })
     .select()
     .single();

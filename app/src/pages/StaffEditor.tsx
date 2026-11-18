@@ -21,6 +21,7 @@ export function StaffEditor() {
   const [images, setImages] = useState<string[]>([]);
   const [attachments, setAttachments] = useState<Attachment[]>([]);
   const [authorId, setAuthorId] = useState<string>('');
+  const [authorName, setAuthorName] = useState<string>('');
   const [categories, setCategories] = useState<BlogCategory[]>([]);
   const [newCategoryName, setNewCategoryName] = useState('');
   const [addingCategory, setAddingCategory] = useState(false);
@@ -53,6 +54,7 @@ export function StaffEditor() {
       setImages(post.images || []);
       setAttachments(post.attachments || []);
       setAuthorId(post.author_id);
+      setAuthorName(post.author_name || '');
       setLoading(false);
     });
   }, [id, isNew]);
@@ -133,6 +135,7 @@ export function StaffEditor() {
         cover_image_url: coverImage,
         images,
         attachments,
+        author_name: authorName.trim() || undefined,
         status,
       },
     });
@@ -214,6 +217,19 @@ export function StaffEditor() {
               <button type="button" className="btn btn-secondary" disabled={addingCategory || !newCategoryName.trim()} onClick={handleAddCategory}>
                 Add
               </button>
+            </div>
+          </div>
+
+          <div className="editor-sidebar-card">
+            <h4>Byline</h4>
+            <div className="field">
+              <input
+                type="text"
+                value={authorName}
+                onChange={(e) => setAuthorName(e.target.value)}
+                placeholder="Defaults to your name — type any name to credit someone else"
+              />
+              <p className="field-hint">Shown as the article's author. Doesn't need to be a staff account — use this for guest writers or to credit someone by name.</p>
             </div>
           </div>
 
